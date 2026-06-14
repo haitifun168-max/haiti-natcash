@@ -1,0 +1,233 @@
+{
+  "main": {
+    "id": "d91074d2d21eff60",
+    "type": "split",
+    "children": [
+      {
+        "id": "d83f682daac914b4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef3cd642ca612a70",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/synthesis/proposal-cashless-pilot-markets.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "proposal-cashless-pilot-markets"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "33c78a66eb329540",
+    "type": "split",
+    "children": [
+      {
+        "id": "9ef0aaf3fe4f1839",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c1a8904e5b016312",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "01d16c8cd32267d5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7f79b852425b8102",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8c612884e1454809",
+    "type": "split",
+    "children": [
+      {
+        "id": "9a92936a939e2d94",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e6f7e0668d043126",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "73db6e0c201fed4c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "fcb93dcd779c0a06",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "36f17d256d2c1675",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "98751d340fc1f571",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "wiki/synthesis/proposal-cashless-pilot-markets.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of proposal-cashless-pilot-markets"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "c1a8904e5b016312",
+  "lastOpenFiles": [
+    "README.md",
+    "raw/2026-06-14-công văn số 52CV-NCM và báo cáo tư vấn lộ trình của VDS về các yêu cầu và lộ trình triển khai dự án PINASSI tại Haiti.md",
+    "wiki/synthesis/proposal-cashless-pilot-markets.md",
+    "wiki/INDEX.md",
+    "wiki/timelines/haiti-digital-payment-timeline.md",
+    "AGENTS.md",
+    "wiki/timelines",
+    "wiki/synthesis/haiti-digital-payment-strategy.md",
+    "wiki/entities/brh.md",
+    "wiki/synthesis/natcash-merchant-ecosystem.md",
+    "raw/README.md",
+    "wiki/concepts/pronap.md",
+    "wiki/concepts/spih.md",
+    "wiki/entities/aci-worldwide.md",
+    "wiki/concepts/pinassi.md",
+    "raw/2026-06-14-VDS - Lộ trình và Tiềm năng Kinh doanh Haiti (Bản Đầy Đủ).md",
+    "raw/2026-06-14-VDS Quik Sale-BẢN ĐỀ XUẤT GIẢI PHÁP KINH DOANH  NATCASH MERCHANT.md",
+    "raw/2026-06-14-PINASSI-Haiti-Strategic-Analysis-2026.md",
+    "raw/VDS - Lộ trình và Tiềm năng Kinh doanh Haiti (Bản Đầy Đủ).md",
+    "raw/BẢN ĐỀ XUẤT GIẢI PHÁP KINH DOANH  NATCASH MERCHANT – Powered by VDS Quik Sale.md",
+    "raw/PINASSI-Haiti-Strategic-Analysis-2026.md",
+    "raw/công văn số 52CV-NCM và báo cáo tư vấn lộ trình của VDS về các yêu cầu và lộ trình triển khai dự án PINASSI tại Haiti.md",
+    "raw/công văn số 52CV-NCM và báo cáo tư vấn lộ trình của VDS về các yêu cầu và lộ trình triển khai dự án PINASSI tại Haiti.docx",
+    "raw/VDS_TamNhin_KinhDoanh_Haiti.html",
+    "raw/vds logo.jpg",
+    "raw/soundbox_final.jpg",
+    "raw/soundbox.jpg",
+    "raw/natcom logo.png",
+    "raw/BẢN_ĐỀ_XUẤT_GIẢI_PHÁP_KINH_DOANH_NATCASH_MERCHANT.docx",
+    "raw/2026-06-14-Research-ACI Worldwide & BRH Haiti  Phân Tích Hạ Tầng Thanh Toán.md",
+    "raw/natcash-merchant/2026-06-14-Research-ACI Worldwide & BRH Haiti  Phân Tích Hạ Tầng Thanh Toán.md",
+    "raw/natcash-merchant/YYYY-0614[nguồn]-ACI Worldwide & BRH Haiti  Phân Tích Hạ Tầng Thanh Toán.md",
+    "raw/natcash-merchant/ACI Worldwide & BRH Haiti  Phân Tích Hạ Tầng Thanh Toán.md",
+    "raw/natcash-merchant/công văn số 52CV-NCM và báo cáo tư vấn lộ trình của VDS về các yêu cầu và lộ trình triển khai dự án PINASSI tại Haiti.docx",
+    "raw/2026-06-14-example-karpathy-llm-wiki.md",
+    "wiki/synthesis",
+    "wiki/entities",
+    "wiki/concepts",
+    "wiki",
+    "Templates",
+    "raw/natcash-merchant/vds logo.jpg",
+    "raw/natcash-merchant/soundbox_final.jpg",
+    "raw/natcash-merchant/soundbox.jpg",
+    "raw/natcash-merchant/natcom logo.png"
+  ]
+}

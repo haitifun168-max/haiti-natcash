@@ -1,0 +1,10 @@
+{
+  "useMarkdownLinks": false,
+  "newLinkFormat": "shortest",
+  "attachmentFolderPath": "raw/attachments",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "raw",
+  "defaultViewMode": "preview",
+  "showLineNumber": false,
+  "vimMode": false
+}
