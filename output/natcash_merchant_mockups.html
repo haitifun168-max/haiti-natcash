@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natcash Merchant - Interactive UI Mockups & Figma Spec</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Branding Colors */
+            --color-primary: #1b8a5a; /* Natcom Green */
+            --color-primary-rgb: 27, 138, 90;
+            --color-secondary: #005a9c; /* Natcom Blue */
+            --color-accent: #f26f21; /* Accent Orange */
+            
+            /* Dark Mode Theme */
+            --bg-page: #0b0f19;
+            --bg-card: rgba(22, 28, 45, 0.7);
+            --bg-phone: #0d1220;
+            --border-glow: rgba(27, 138, 90, 0.2);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dark: #111827;
+            
+            /* Font Families */
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(27, 138, 90, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 90, 156, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area i {
+            font-size: 28px;
+            color: var(--color-primary);
+        }
+
+        .logo-area h1 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-area span {
+            color: var(--color-accent);
+        }
+
+        .header-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Main Grid Container */
+        .workspace {
+            display: grid;
+            grid-template-columns: 320px 1fr 400px;
+            height: calc(100vh - 89px);
+            position: relative;
+        }
+
+        /* Left Panel: Screen Selector */
+        .left-panel {
+            background: rgba(11, 15, 25, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-container {
+            margin-bottom: 24px;
+        }
+
+        .group-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-left: 8px;
+        }
+
+        .screen-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            font-size: 14px;
+        }
+
+        .screen-btn i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .screen-btn:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+        }
+
+        .screen-btn.active {
+            background: rgba(27, 138, 90, 0.15);
+            color: #fff;
+            font-weight: 600;
+            border-left: 3px solid var(--color-primary);
+            box-shadow: inset 0 0 10px rgba(27, 138, 90, 0.1);
+        }
+
+        /* Center Panel: Interactive Device Mockup */
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .device-container {
+            position: relative;
+            width: 360px;
+            height: 720px;
+            background: #000;
+            border-radius: 44px;
+            padding: 11px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0,0,0,0.7),
+                0 0 0 4px #222c3d,
+                0 0 20px 2px var(--border-glow);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Phone Screen Frame */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-phone);
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            user-select: none;
+        }
+
+        /* Notch / Dynamic Island simulation */
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 25px;
+            background: #000;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-notch-camera {
+            width: 10px;
+            height: 10px;
+            background: #111;
+            border-radius: 50%;
+        }
+
+        /* Phone Status Bar */
+        .status-bar {
+            height: 38px;
+            padding: 12px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 40;
+            font-family: var(--font-display);
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* Phone Screen Content Wrapper */
+        .screen-content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Hide Scrollbar */
+        .screen-content-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Right Panel: Figma Design Spec */
+        .right-panel {
+            background: rgba(11, 15, 25, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .spec-section {
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
+        }
+
+        .spec-section:last-child {
+            border-bottom: none;
+        }
+
+        .spec-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-title i {
+            color: var(--color-primary);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .spec-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .spec-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-family: monospace;
+        }
+
+        .color-bubble-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .color-bubble {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .color-bubble:hover::after {
+            content: attr(data-hex);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            background: #000;
+            padding: 2px 4px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        /* Interactive Prototype Components Inside Phone Screen */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+        }
+
+        .app-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .app-logo i {
+            color: var(--color-primary);
+        }
+
+        .lang-badge {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .lang-badge span.active {
+            color: #fff;
+        }
+
+        .app-body {
+            padding: 0 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Balance card style */
+        .balance-card {
+            background: linear-gradient(135deg, rgba(27, 138, 90, 0.2) 0%, rgba(0, 90, 156, 0.2) 100%);
+            border: 1px solid rgba(27, 138, 90, 0.3);
+            border-radius: 20px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .balance-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .balance-val {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            margin: 6px 0;
+        }
+
+        /* QR Area */
+        .qr-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .qr-placeholder {
+            width: 170px;
+            height: 170px;
+            background: #eee;
+            border-radius: 16px;
+            border: 2px dashed var(--color-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .qr-placeholder i {
+            font-size: 64px;
+            color: var(--color-primary);
+        }
+
+        .qr-desc {
+            color: var(--text-dark);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .qr-sub {
+            color: #6b7280;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* Action Buttons */
+        .action-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .action-btn i {
+            font-size: 18px;
+            color: var(--color-primary);
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--color-primary);
+        }
+
+        /* Tab bar bottom phone simulation */
+        .app-tabbar {
+            height: 60px;
+            background: rgba(13, 18, 32, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 8px; /* Room for home indicator */
+            z-index: 40;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 9px;
+            cursor: pointer;
+            transition: color 0.2s;
+            width: 25%;
+        }
+
+        .tab-item i {
+            font-size: 16px;
+        }
+
+        .tab-item.active {
+            color: var(--color-primary);
+        }
+
+        .home-indicator {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            z-index: 50;
+        }
+
+        /* Screen Specific Styles */
+        .screen-view {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .screen-view.active {
+            display: flex;
+        }
+
+        /* Form Controls */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .input-field {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--color-primary);
+        }
+
+        .submit-btn {
+            background: var(--color-accent);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* eKYC mock styles */
+        .ekyc-frame {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .ekyc-camera-overlay {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 2px solid var(--color-accent);
+            border-radius: 14px;
+            box-shadow: 0 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        .ekyc-text-guide {
+            font-size: 12px;
+            text-align: center;
+            color: var(--color-accent);
+            font-weight: 600;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 10px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+
+        /* Soundbox Visual Mock */
+        .soundbox-mock {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sb-body {
+            width: 140px;
+            height: 180px;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border: 3px solid var(--color-primary);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            position: relative;
+        }
+
+        .sb-speaker-grill {
+            width: 80px;
+            height: 40px;
+            background-image: radial-gradient(circle, #374151 1px, transparent 1px);
+            background-size: 5px 5px;
+            border-radius: 10px;
+        }
+
+        .sb-qr-holder {
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sb-qr-holder i {
+            font-size: 48px;
+            color: #000;
+        }
+
+        .sb-leds {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            top: 55px;
+        }
+
+        .sb-led {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981; /* Green LED */
+            box-shadow: 0 0 6px #10b981;
+        }
+
+        .sb-led.battery {
+            background: #10b981;
+            box-shadow: 0 0 6px #10b981;
+        }
+
+        /* Item List (Goods) */
+        .item-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-img-placeholder {
+            width: 40px;
+            height: 40px;
+            background: rgba(27, 138, 90, 0.15);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .item-details h4 {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .item-details span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .item-price {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        /* History transactions */
+        .trans-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .trans-details h5 {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .trans-details span {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .trans-amount {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .trans-amount.plus {
+            color: #10b981;
+        }
+
+        .trans-amount.minus {
+            color: #ef4444;
+        }
+
+        /* Staff list SME */
+        .staff-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .staff-info h5 {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .staff-info span {
+            font-size: 10px;
+            background: rgba(27, 138, 90, 0.1);
+            color: var(--color-primary);
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Shift chot ca SME */
+        .shift-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        /* Enterprise dashboard */
+        .chart-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 16px;
+        }
+
+        .chart-bar {
+            width: 12%;
+            background: var(--color-primary);
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+            background: var(--color-accent);
+        }
+
+        .branch-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .branch-info h5 {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .branch-info span {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .branch-val {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <i class="fa-solid fa-wallet"></i>
+            <h1>NATCASH <span>MERCHANT</span></h1>
+        </div>
+        <div class="header-meta">
+            <i class="fa-solid fa-layer-group"></i> Figma Spec & Interactive Mockup v1.0
+        </div>
+    </header>
+
+    <div class="workspace">
+        <!-- Left Panel: Screen Selector -->
+        <div class="left-panel">
+            <div class="panel-title">
+                <i class="fa-solid fa-mobile-screen"></i> Màn hình thiết kế
+            </div>
+
+            <!-- Gói Cá nhân -->
+            <div class="group-container">
+                <div class="group-label">Gói Cá Nhân (Micro)</div>
+                <button class="screen-btn active" data-screen="scr-login">
+                    <i class="fa-solid fa-right-to-bracket"></i> 1. Đăng nhập / Sinh trắc
+                </button>
+                <button class="screen-btn" data-screen="scr-ekyc">
+                    <i class="fa-solid fa-user-shield"></i> 2. Đăng ký nhanh eKYC
+                </button>
+                <button class="screen-btn" data-screen="scr-home">
+                    <i class="fa-solid fa-house"></i> 3. Trang chủ & QR Nhận tiền
+                </button>
+                <button class="screen-btn" data-screen="scr-goods">
+                    <i class="fa-solid fa-box-open"></i> 4. Quản lý hàng hóa cơ bản
+                </button>
+                <button class="screen-btn" data-screen="scr-history">
+                    <i class="fa-solid fa-list-check"></i> 5. Lịch sử & Báo cáo ngày
+                </button>
+                <button class="screen-btn" data-screen="scr-withdraw">
+                    <i class="fa-solid fa-money-bill-transfer"></i> 6. Rút tiền nhanh
+                </button>
+                <button class="screen-btn" data-screen="scr-soundbox">
+                    <i class="fa-solid fa-volume-high"></i> 7. Cấu hình Loa Speaker
+                </button>
+            </div>
+
+            <!-- Gói Hộ Kinh Doanh / SME -->
+            <div class="group-container">
+                <div class="group-label">Gói Hộ Kinh Doanh (SME)</div>
+                <button class="screen-btn" data-screen="scr-staff">
+                    <i class="fa-solid fa-users-gear"></i> 8. Quản lý nhân viên
+                </button>
+                <button class="screen-btn" data-screen="scr-shift">
+                    <i class="fa-solid fa-business-time"></i> 9. Phân ca & Chốt ca
+                </button>
+                <button class="screen-btn" data-screen="scr-bill">
+                    <i class="fa-solid fa-receipt"></i> 10. Xuất Hóa đơn / WhatsApp
+                </button>
+            </div>
+
+            <!-- Gói Chuỗi / Enterprise -->
+            <div class="group-container">
+                <div class="group-label">Gói Chuỗi (Enterprise)</div>
+                <button class="screen-btn" data-screen="scr-enterprise">
+                    <i class="fa-solid fa-chart-line"></i> 11. Dashboard Đa chi nhánh
+                </button>
+            </div>
+        </div>
+
+        <!-- Center Panel: Interactive Device Mockup -->
+        <div class="center-panel">
+            <div class="device-container">
+                <div class="phone-notch"><div class="phone-notch-camera"></div></div>
+                
+                <div class="phone-screen">
+                    <!-- Status Bar -->
+                    <div class="status-bar">
+                        <span id="phone-time">09:41</span>
+                        <div class="status-icons">
+                            <i class="fa-solid fa-wifi"></i>
+                            <i class="fa-solid fa-signal"></i>
+                            <i class="fa-solid fa-battery-three-quarters"></i>
+                        </div>
+                    </div>
+
+                    <!-- Screen Content Wrapper -->
+                    <div class="screen-content-wrapper">
+                        
+                        <!-- 1. Screen Đăng Nhập -->
+                        <div class="screen-view active" id="scr-login">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-wallet"></i> Natcash</div>
+                                <div class="lang-badge"><span class="active">Creole</span> | <span>Fr</span></div>
+                            </div>
+                            <div class="app-body" style="justify-content: center; flex: 1; padding-bottom: 80px;">
+                                <div style="text-align: center; margin-bottom: 24px;">
+                                    <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 6px;">Chào mừng quay lại</h2>
+                                    <p style="font-size: 11px; color: var(--text-muted);">Ứng dụng dành cho điểm bán hàng</p>
+                                </div>
+                                <div class="input-group">
+                                    <label>SỐ ĐIỆN THOẠI NATCOM</label>
+                                    <input type="text" class="input-field" value="+509 3">
+                                </div>
+                                <div class="input-group">
+                                    <label>MÃ PIN AN TOÀN (6 SỐ)</label>
+                                    <input type="password" class="input-field" value="••••••">
+                                </div>
+                                <button class="submit-btn" style="margin-top: 10px;">ĐĂNG NHẬP NHANH</button>
+                                <div style="display: flex; justify-content: center; margin-top: 16px;">
+                                    <button style="background: transparent; border: none; color: var(--color-primary); font-size: 24px; cursor: pointer;">
+                                        <i class="fa-solid fa-fingerprint"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Screen eKYC -->
+                        <div class="screen-view" id="scr-ekyc">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-user-shield"></i> eKYC Điểm bán</div>
+                                <div class="lang-badge">1/3</div>
+                            </div>
+                            <div class="app-body">
+                                <p style="font-size: 11px; color: var(--text-muted); text-align: center;">Chụp ảnh Thẻ căn cước quốc gia (CIN) để mở ví trong 5 phút</p>
+                                <div class="ekyc-frame" style="margin: 10px 0;">
+                                    <div class="ekyc-camera-overlay"></div>
+                                    <span class="ekyc-text-guide">ĐẶT MẶT TRƯỚC VÀO KHUNG</span>
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 8px;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary);"></span>
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2);"></span>
+                                </div>
+                                <button class="submit-btn" style="background: var(--color-primary);">CHỤP ẢNH</button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Screen Trang Chủ -->
+                        <div class="screen-view" id="scr-home">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-wallet"></i> Natcash</div>
+                                <div class="lang-badge" style="background: rgba(27, 138, 90, 0.2); border-color: var(--color-primary); color: #fff;">
+                                    <i class="fa-solid fa-volume-high"></i> Loa Active
+                                </div>
+                            </div>
+                            <div class="app-body">
+                                <div class="balance-card">
+                                    <div class="balance-label"><i class="fa-solid fa-sack-dollar"></i> Số dư Merchant</div>
+                                    <div class="balance-val">5,420.00 HTG</div>
+                                </div>
+                                <div class="qr-card">
+                                    <div class="qr-placeholder">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                    </div>
+                                    <div class="qr-desc">QUÉT QR ĐỂ THANH TOÁN</div>
+                                    <div class="qr-sub">Mã QR cố định tại quầy của Merchant</div>
+                                </div>
+                                <div class="action-row">
+                                    <button class="action-btn"><i class="fa-solid fa-circle-plus"></i>Tạo QR động</button>
+                                    <button class="action-btn"><i class="fa-solid fa-circle-arrow-up"></i>Rút tiền</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Screen Hàng Hóa -->
+                        <div class="screen-view" id="scr-goods">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-box-open"></i> Hàng hóa</div>
+                                <button style="background: var(--color-primary); border: none; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600; cursor: pointer;">
+                                    + Thêm mới
+                                </button>
+                            </div>
+                            <div class="app-body">
+                                <div class="item-card">
+                                    <div class="item-info">
+                                        <div class="item-img-placeholder">R</div>
+                                        <div class="item-details">
+                                            <h4>Rhum Barbancourt</h4>
+                                            <span>Danh mục: Đồ uống</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-price">1,200.00 HTG</div>
+                                </div>
+                                <div class="item-card">
+                                    <div class="item-info">
+                                        <div class="item-img-placeholder">C</div>
+                                        <div class="item-details">
+                                            <h4>Café Haiti (500g)</h4>
+                                            <span>Danh mục: Thực phẩm</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-price">450.00 HTG</div>
+                                </div>
+                                <div class="item-card">
+                                    <div class="item-info">
+                                        <div class="item-img-placeholder">H</div>
+                                        <div class="item-details">
+                                            <h4>Huile Végétale (1L)</h4>
+                                            <span>Danh mục: Thực phẩm</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-price">350.00 HTG</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Screen Lịch Sử -->
+                        <div class="screen-view" id="scr-history">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-list-check"></i> Lịch sử</div>
+                                <div class="lang-badge">Hôm nay</div>
+                            </div>
+                            <div class="app-body">
+                                <div style="display: flex; justify-content: space-between; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; text-align: center;">
+                                    <div>
+                                        <div style="font-size: 9px; color: var(--text-muted);">TỔNG DOANH THU</div>
+                                        <div style="font-size: 14px; font-weight: 700; color: #10b981;">+12,450 HTG</div>
+                                    </div>
+                                    <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+                                    <div>
+                                        <div style="font-size: 9px; color: var(--text-muted);">GIAO DỊCH</div>
+                                        <div style="font-size: 14px; font-weight: 700;">48 giao dịch</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                                    <div class="trans-item">
+                                        <div class="trans-details">
+                                            <h5>Nhận từ 098***432</h5>
+                                            <span>14:23 • Giao dịch QR</span>
+                                        </div>
+                                        <div class="trans-amount plus">+1,200 HTG</div>
+                                    </div>
+                                    <div class="trans-item">
+                                        <div class="trans-details">
+                                            <h5>Nhận từ 097***889</h5>
+                                            <span>14:15 • Giao dịch QR</span>
+                                        </div>
+                                        <div class="trans-amount plus">+450 HTG</div>
+                                    </div>
+                                    <div class="trans-item">
+                                        <div class="trans-details">
+                                            <h5>Rút tiền về Ví cá nhân</h5>
+                                            <span>11:30 • Rút tiền</span>
+                                        </div>
+                                        <div class="trans-amount minus">-5,000 HTG</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. Screen Rút Tiền -->
+                        <div class="screen-view" id="scr-withdraw">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-money-bill-transfer"></i> Rút tiền</div>
+                            </div>
+                            <div class="app-body">
+                                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; margin-bottom: 6px;">
+                                    <span style="font-size: 10px; color: var(--text-muted);">SỐ DƯ MERCHANT CÓ THỂ RÚT</span>
+                                    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px;">5,420.00 HTG</h3>
+                                </div>
+                                <div class="input-group">
+                                    <label>PHƯƠNG THỨC RÚT TIỀN</label>
+                                    <div style="background: rgba(27, 138, 90, 0.1); border: 1px solid var(--color-primary); padding: 10px; border-radius: 10px; font-size: 11px; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fa-solid fa-wallet" style="margin-right: 6px;"></i> Ví cá nhân Natcash</span>
+                                        <i class="fa-solid fa-circle-check" style="color: var(--color-primary);"></i>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>SỐ TIỀN RÚT (HTG)</label>
+                                    <input type="text" class="input-field" value="2,000">
+                                </div>
+                                <button class="submit-btn" style="background: var(--color-accent); margin-top: 10px;">XÁC NHẬN RÚT TIỀN</button>
+                            </div>
+                        </div>
+
+                        <!-- 7. Screen Cấu hình Loa -->
+                        <div class="screen-view" id="scr-soundbox">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-volume-high"></i> Loa thông báo</div>
+                            </div>
+                            <div class="app-body">
+                                <div class="soundbox-mock">
+                                    <div class="sb-body">
+                                        <div class="sb-speaker-grill"></div>
+                                        <div class="sb-leds">
+                                            <div class="sb-led"></div>
+                                            <div class="sb-led battery"></div>
+                                        </div>
+                                        <div class="sb-qr-holder">
+                                            <i class="fa-solid fa-qrcode"></i>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <h4 style="font-size: 13px; font-weight: 600;">Natcash Speaker Pro</h4>
+                                        <span style="font-size: 10px; color: #10b981;"><i class="fa-solid fa-wifi"></i> Đang hoạt động • Pin 85%</span>
+                                    </div>
+                                </div>
+                                <button class="submit-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                                    Tải file âm thanh mới (OTA)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 8. Screen Quản lý nhân viên SME -->
+                        <div class="screen-view" id="scr-staff">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-users-gear"></i> Nhân viên</div>
+                                <button style="background: var(--color-primary); border: none; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600; cursor: pointer;">
+                                    + Thêm mới
+                                </button>
+                            </div>
+                            <div class="app-body">
+                                <div class="staff-card">
+                                    <div class="staff-info">
+                                        <h5>Jean Baptiste</h5>
+                                        <span>Vai trò: Thu ngân</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">098***123</div>
+                                </div>
+                                <div class="staff-card">
+                                    <div class="staff-info">
+                                        <h5>Marie Claire</h5>
+                                        <span>Vai trò: Thủ kho</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">097***456</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 9. Screen Phân ca SME -->
+                        <div class="screen-view" id="scr-shift">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-business-time"></i> Phân ca làm</div>
+                            </div>
+                            <div class="app-body">
+                                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 14px; border-radius: 16px;">
+                                    <div class="shift-row">
+                                        <span>Nhân viên ca hiện tại:</span>
+                                        <span style="font-weight: 700;">Jean Baptiste</span>
+                                    </div>
+                                    <div class="shift-row">
+                                        <span>Giờ bắt đầu ca:</span>
+                                        <span>08:00 AM hôm nay</span>
+                                    </div>
+                                    <div class="shift-row">
+                                        <span>Doanh thu số tạm tính:</span>
+                                        <span style="color: #10b981; font-weight: 700;">+12,000.00 HTG</span>
+                                    </div>
+                                    <div class="shift-row">
+                                        <span>Tiền mặt đầu ca:</span>
+                                        <span>1,000.00 HTG</span>
+                                    </div>
+                                </div>
+                                <button class="submit-btn" style="background: var(--color-accent); margin-top: 10px;">
+                                    CHỐT CA & BÀN GIAO Ca
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 10. Screen Hóa đơn SME -->
+                        <div class="screen-view" id="scr-bill">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-receipt"></i> Hóa đơn số</div>
+                            </div>
+                            <div class="app-body" style="padding-bottom: 40px;">
+                                <div style="background: #fff; color: #000; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-family: monospace; font-size: 10px;">
+                                    <div style="text-align: center; font-weight: bold; font-size: 12px; margin-bottom: 8px;">NATCASH BOUTIQUE</div>
+                                    <div style="text-align: center; margin-bottom: 12px;">Port-au-Prince, Haiti</div>
+                                    <div style="border-bottom: 1px dashed #ccc; padding-bottom: 6px; margin-bottom: 6px;">
+                                        Ngày: 14/06/2026 14:23<br>
+                                        HD: #NCM-887462
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                        <span>Barbancourt (1)</span>
+                                        <span>1,200.00 HTG</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span>Café Haiti (1)</span>
+                                        <span>450.00 HTG</span>
+                                    </div>
+                                    <div style="border-top: 1px dashed #ccc; padding-top: 6px; font-weight: bold; display: flex; justify-content: space-between; font-size: 11px;">
+                                        <span>TỔNG CỘNG</span>
+                                        <span>1,650.00 HTG</span>
+                                    </div>
+                                    <div style="margin-top: 10px; text-align: center; font-size: 8px; color: #555;">
+                                        Thanh toán qua Ví Natcash QR<br>
+                                        Mã chuẩn BRH
+                                    </div>
+                                </div>
+                                <button class="submit-btn" style="background: #25d366;"><i class="fa-brands fa-whatsapp" style="margin-right: 6px;"></i> Gửi qua WhatsApp</button>
+                                <button class="submit-btn" style="background: var(--color-primary);"><i class="fa-solid fa-print" style="margin-right: 6px;"></i> In hóa đơn nhiệt</button>
+                            </div>
+                        </div>
+
+                        <!-- 11. Screen Enterprise Dashboard -->
+                        <div class="screen-view" id="scr-enterprise">
+                            <div class="app-header">
+                                <div class="app-logo"><i class="fa-solid fa-chart-line"></i> Dashboard Chuỗi</div>
+                                <div class="lang-badge" style="background: rgba(242, 111, 33, 0.15); border-color: var(--color-accent); color: var(--color-accent);">Tất cả</div>
+                            </div>
+                            <div class="app-body">
+                                <div class="chart-box">
+                                    <div class="chart-bar" style="height: 40%;"></div>
+                                    <div class="chart-bar" style="height: 60%;"></div>
+                                    <div class="chart-bar" style="height: 85%;"></div>
+                                    <div class="chart-bar" style="height: 70%;"></div>
+                                    <div class="chart-bar" style="height: 95%;"></div>
+                                    <div class="chart-bar" style="height: 50%;"></div>
+                                    <div class="chart-bar" style="height: 80%;"></div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+                                    <div class="branch-card">
+                                        <div class="branch-info">
+                                            <h5>Port-au-Prince Center</h5>
+                                            <span>180 đơn hàng</span>
+                                        </div>
+                                        <div class="branch-val">82,000.00 HTG</div>
+                                    </div>
+                                    <div class="branch-card">
+                                        <div class="branch-info">
+                                            <h5>Cap-Haïtien Store</h5>
+                                            <span>170 đơn hàng</span>
+                                        </div>
+                                        <div class="branch-val">60,500.00 HTG</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Tabbar (Simulated) -->
+                    <div class="app-tabbar">
+                        <div class="tab-item active" data-btn="scr-home">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Home</span>
+                        </div>
+                        <div class="tab-item" data-btn="scr-goods">
+                            <i class="fa-solid fa-box-open"></i>
+                            <span>Hàng hóa</span>
+                        </div>
+                        <div class="tab-item" data-btn="scr-history">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>Lịch sử</span>
+                        </div>
+                        <div class="tab-item" data-btn="scr-soundbox">
+                            <i class="fa-solid fa-volume-high"></i>
+                            <span>Loa</span>
+                        </div>
+                    </div>
+                    <div class="home-indicator"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Figma Design Spec -->
+        <div class="right-panel">
+            <div class="panel-title">
+                <i class="fa-solid fa-drafting-compass"></i> Figma Design System
+            </div>
+
+            <!-- Color Palette -->
+            <div class="spec-section">
+                <div class="spec-title"><i class="fa-solid fa-palette"></i> Bảng màu (HEX Specs)</div>
+                <div class="spec-grid" style="margin-bottom: 12px;">
+                    <div class="spec-item">
+                        <div class="spec-label">Primary (Green)</div>
+                        <div class="spec-value">#1B8A5A</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Secondary (Blue)</div>
+                        <div class="spec-value">#005A9C</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Accent (Orange)</div>
+                        <div class="spec-value">#F26F21</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Dark Theme BG</div>
+                        <div class="spec-value">#0D1220</div>
+                    </div>
+                </div>
+                <div class="color-bubble-row">
+                    <div class="color-bubble" style="background: #1B8A5A;" data-hex="#1B8A5A"></div>
+                    <div class="color-bubble" style="background: #005A9C;" data-hex="#005A9C"></div>
+                    <div class="color-bubble" style="background: #F26F21;" data-hex="#F26F21"></div>
+                    <div class="color-bubble" style="background: #0D1220;" data-hex="#0D1220"></div>
+                    <div class="color-bubble" style="background: #161C2D;" data-hex="#161C2D"></div>
+                    <div class="color-bubble" style="background: #FFFFFF;" data-hex="#FFFFFF"></div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="spec-section">
+                <div class="spec-title"><i class="fa-solid fa-font"></i> Typography</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="spec-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="spec-label" style="margin-bottom: 0;">Font Family (Chính)</span>
+                        <span class="spec-value" style="font-size: 11px;">Outfit / Jakarta</span>
+                    </div>
+                    <div class="spec-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="spec-label" style="margin-bottom: 0;">Heading 1 (H1)</span>
+                        <span class="spec-value" style="font-size: 11px;">24px • Bold</span>
+                    </div>
+                    <div class="spec-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="spec-label" style="margin-bottom: 0;">Số dư (Balance)</span>
+                        <span class="spec-value" style="font-size: 11px;">26px • Extrabold</span>
+                    </div>
+                    <div class="spec-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="spec-label" style="margin-bottom: 0;">Body Text (Nội dung)</span>
+                        <span class="spec-value" style="font-size: 11px;">13px • Regular</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layout Grid & Spacing -->
+            <div class="spec-section">
+                <div class="spec-title"><i class="fa-solid fa-border-all"></i> Layout Grid & Spacing</div>
+                <div class="spec-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Frame Size</div>
+                        <div class="spec-value">360 x 720px</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Outer Margin</div>
+                        <div class="spec-value">20px</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Grid Columns</div>
+                        <div class="spec-value">4 Columns</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Border Radius</div>
+                        <div class="spec-value">14px & 20px</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Screen Specs -->
+            <div class="spec-section">
+                <div class="spec-title"><i class="fa-solid fa-circle-info"></i> Mô tả Layer Figma của Screen</div>
+                <div id="screen-desc" style="font-size: 12px; line-height: 1.6; color: var(--text-muted); background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 8px;">
+                    Chọn một màn hình ở panel bên trái để xem mô tả chi tiết thông số layer Figma-ready tương ứng.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript Logic for Interaction -->
+    <script>
+        // Update Time simulation
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('phone-time').innerText = hours + ':' + minutes;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Screen descriptions metadata for Figma-ready
+        const screenSpecs = {
+            'scr-login': `<strong>Màn hình 1: Đăng nhập & Sinh trắc học</strong><br>
+            • <strong>Header:</strong> Chiều cao 56px, chứa Logo Natcash (Bold 16px, Green #1B8A5A) và Badge chọn ngôn ngữ.<br>
+            • <strong>Body:</strong> Bố cục căn giữa theo trục Y. Title chính 20px Bold, khoảng cách các trường input là 16px.<br>
+            • <strong>Input Fields:</strong> Chiều cao 48px, bo góc 12px, Stroke #FFFFFF (10% opacity). Nền #FFFFFF (5% opacity).<br>
+            • <strong>Biểu tượng Vân tay:</strong> Kích thước 48x48px, icon chính màu #1B8A5A.`,
+            
+            'scr-ekyc': `<strong>Màn hình 2: Đăng ký nhanh eKYC (Chụp ảnh)</strong><br>
+            • <strong>Khung Camera:</strong> Chiều cao 180px, bo góc 20px. Viền #FFFFFF (20% opacity).<br>
+            • <strong>Khung cắt thẻ CIN:</strong> Khung định hình màu cam #F26F21 nét liền mảnh, bo góc 14px.<br>
+            • <strong>Chỉ dẫn Creole:</strong> Text cỡ chữ 12px Semi-bold màu cam #F26F21, căn giữa tuyệt đối trên dải phủ đen.<br>
+            • <strong>Nút Chụp:</strong> Nút nguyên khối màu xanh lá #1B8A5A, bo góc 12px, text màu trắng.`,
+            
+            'scr-home': `<strong>Màn hình 3: Trang chủ & QR Nhận tiền</strong><br>
+            • <strong>Thẻ số dư:</strong> Sử dụng Gradient 135 độ từ #1B8A5A (20% opacity) đến #005A9C (20% opacity). Viền Stroke 1px màu #1B8A5A (30% opacity).<br>
+            • <strong>Thẻ QR trắng:</strong> Bo góc 24px, đổ bóng mờ nhạt (Y: 10px, Blur: 25px, Black 20% opacity). Mã QR kích thước 170x170px.<br>
+            • <strong>Nút Hành Động:</strong> Grid 2 cột, chiều cao nút 64px, bo góc 14px, icon kích thước 18px màu #1B8A5A.`,
+            
+            'scr-goods': `<strong>Màn hình 4: Quản lý hàng hóa cơ bản</strong><br>
+            • <strong>Thẻ Hàng Hóa:</strong> Chiều cao 64px, bo góc 14px. Viền Stroke 1px màu #FFFFFF (6% opacity).<br>
+            • <strong>Ký tự sản phẩm:</strong> Box tròn kích thước 40x40px, màu nền #1B8A5A (15% opacity), text chữ cái đầu in hoa màu #1B8A5A.<br>
+            • <strong>Nút Thêm Mới:</strong> Đặt góc trên bên phải Header, bo góc 8px, nền #1B8A5A.`,
+            
+            'scr-history': `<strong>Màn hình 5: Lịch sử & Báo cáo ngày</strong><br>
+            • <strong>Bảng báo cáo nhanh:</strong> Bo góc 12px, nền #FFFFFF (3% opacity). Trị số Doanh thu màu xanh #10B981 (14px Bold).<br>
+            • <strong>Dòng Lịch sử Giao dịch:</strong> Phân bổ Flexbox space-between. Số tiền nhận có tiền tố "+" màu xanh #10B981, số tiền rút có tiền tố "-" màu đỏ #EF4444.`,
+            
+            'scr-withdraw': `<strong>Màn hình 6: Rút tiền nhanh</strong><br>
+            • <strong>Khu vực số dư khả dụng:</strong> Bo góc 12px, nền #FFFFFF (3% opacity). Text số tiền 20px Bold.<br>
+            • <strong>Lựa chọn kênh:</strong> Viền màu xanh #1B8A5A, nền #1B8A5A (10% opacity) để hiển thị trạng thái đã chọn.<br>
+            • <strong>Nút Xác Nhận:</strong> Nền màu cam #F26F21, bo góc 12px, text trắng Bold.`,
+            
+            'scr-soundbox': `<strong>Màn hình 7: Cấu hình Loa Speaker</strong><br>
+            • <strong>Vỏ thiết bị Loa:</strong> Vẽ mockup loa bằng 2 khối bo góc lồng nhau. Thân loa ngoài #1F2937, viền Stroke #1B8A5A.<br>
+            • <strong>Đèn LED:</strong> Đèn tín hiệu dạng hình tròn 6x6px màu xanh #10B981 có bộ lọc bóng mờ (Blur 6px) để tạo hiệu ứng phát sáng live.<br>
+            • <strong>Mã QR thiết bị:</strong> 80x80px nền trắng cố định đáy.`,
+            
+            'scr-staff': `<strong>Màn hình 8: Quản lý nhân viên (Gói SME)</strong><br>
+            • <strong>Thẻ Nhân Viên:</strong> Chiều cao 64px, bo góc 14px, viền stroke mảnh.<br>
+            • <strong>Nhãn vai trò:</strong> Cỡ chữ 10px, padding 2px 6px, bo góc 8px. Màu xanh nhạt để làm nổi bật tên chức vụ thu ngân/kho.`,
+            
+            'scr-shift': `<strong>Màn hình 9: Phân ca & Chốt ca (Gói SME)</strong><br>
+            • <strong>Hộp thông tin ca:</strong> Bo góc 16px, viền nét liền #FFFFFF (6% opacity).<br>
+            • <strong>Dòng thông tin:</strong> Flexbox giãn cách hai bên, ngăn tách bằng các đường kẻ đứt nét #FFFFFF (5% opacity).`,
+            
+            'scr-bill': `<strong>Màn hình 10: Xuất Hóa đơn điện tử (Gói SME)</strong><br>
+            • <strong>Khung Hóa Đơn:</strong> Mô phỏng cuộn giấy nhiệt. Nền trắng hoàn toàn #FFFFFF, chữ đen #000000, font chữ đơn cách monospace.<br>
+            • <strong>Nút Gửi WhatsApp:</strong> Nền xanh lá WhatsApp #25D366, bo góc 12px, text trắng.`,
+            
+            'scr-enterprise': `<strong>Màn hình 11: Dashboard Đa chi nhánh (Enterprise)</strong><br>
+            • <strong>Hộp Biểu Đồ:</strong> Chiều cao 120px, bo góc 16px. Cột biểu đồ bo tròn đỉnh, rộng 12%, màu #1B8A5A (70% opacity).<br>
+            • <strong>Hiệu ứng Hover cột:</strong> Chuyển sang màu cam #F26F21 và opacity 100% khi người dùng di chuột qua cột.`
+        };
+
+        // Navigation Switcher Logic
+        const screenBtns = document.querySelectorAll('.screen-btn');
+        const screenViews = document.querySelectorAll('.screen-view');
+        const tabItems = document.querySelectorAll('.app-tabbar .tab-item');
+        const screenDesc = document.getElementById('screen-desc');
+        const deviceContainer = document.querySelector('.device-container');
+
+        function activateScreen(screenId) {
+            // Deactivate all screens
+            screenViews.forEach(view => view.classList.remove('active'));
+            screenBtns.forEach(btn => btn.classList.remove('active'));
+            tabItems.forEach(tab => tab.classList.remove('active'));
+
+            // Activate target screen
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+
+            // Sync left panel button
+            const targetBtn = document.querySelector(`.screen-btn[data-screen="${screenId}"]`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            // Sync phone bottom tabbar
+            if (['scr-home', 'scr-goods', 'scr-history', 'scr-soundbox'].includes(screenId)) {
+                const targetTab = document.querySelector(`.app-tabbar .tab-item[data-btn="${screenId}"]`);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
+            }
+
+            // Update Figma spec description
+            if (screenSpecs[screenId]) {
+                screenDesc.innerHTML = screenSpecs[screenId];
+            } else {
+                screenDesc.innerHTML = "Không tìm thấy thông tin mô tả cho màn hình này.";
+            }
+
+            // Change glow color based on screen context
+            if (screenId === 'scr-ekyc' || screenId === 'scr-withdraw') {
+                deviceContainer.style.setProperty('--border-glow', 'rgba(242, 111, 33, 0.25)'); // Orange glow
+            } else {
+                deviceContainer.style.setProperty('--border-glow', 'rgba(27, 138, 90, 0.25)'); // Green glow
+            }
+        }
+
+        // Add event listeners to left panel buttons
+        screenBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const screenId = btn.getAttribute('data-screen');
+                activateScreen(screenId);
+            });
+        });
+
+        // Add event listeners to simulated phone tabbar items
+        tabItems.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const screenId = tab.getAttribute('data-btn');
+                activateScreen(screenId);
+            });
+        });
+
+        // Initial setup for the first screen
+        activateScreen('scr-login');
+    </script>
+</body>
+</html>

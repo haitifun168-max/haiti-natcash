@@ -6,8 +6,8 @@ updated: 2026-06-14
 
 # 🧠 INDEX — MyBrain Wiki
 
-> **Cập nhật lần cuối:** `2026-06-14 22:05`
-> **Tổng số trang:** `16`
+> **Cập nhật lần cuối:** `2026-06-14 23:25`
+> **Tổng số trang:** `17`
 > **Agent:** Antigravity 2.0 | Skill: llm-wiki v1.0
 
 ---
@@ -59,6 +59,7 @@ Wiki hiện tại chứa thông tin về hai chủ đề lớn:
 | [[synthesis/haiti-digital-payment-strategy]] | Lộ trình 11 trụ cột công việc phát triển tài chính Haiti dựa trên bài học Việt Nam | stable |
 | [[synthesis/natcash-merchant-ecosystem]] | Hệ sinh thái ứng dụng quản lý bán hàng và loa báo Soundbox cho tiểu thương | stable |
 | [[synthesis/proposal-cashless-pilot-markets]] | Đề xuất giải pháp thử nghiệm thanh toán phi tiền mặt tại một số chợ đầu mối | stable |
+| [[synthesis/natcash-merchant-ui-design]] | Đặc tả thiết kế chi tiết toàn bộ các màn hình tính năng cho 3 gói dịch vụ Natcash Merchant | stable |
 
 ---
 

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo: Đề xuất Thí điểm Thanh toán Không tiền mặt tại các Chợ Đầu mối Haiti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0F172A;
+            --secondary-color: #FF6B00; /* Natcash Orange */
+            --accent-blue: #0084FF; /* Natcom Blue */
+            --text-color: #334155;
+            --text-dark: #0F172A;
+            --border-color: #E2E8F0;
+            --bg-light: #F8FAFC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #F1F5F9;
+            padding: 40px 0;
+        }
+
+        /* A4 Page Formatting */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm 20mm;
+            margin: 0 auto 30px auto;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            box-sizing: border-box;
+            page-break-after: always;
+        }
+
+        /* Cover Page Styling */
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: calc(297mm - 50mm); /* Height minus margins */
+        }
+
+        .cover-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .cover-logos {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .doc-tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .cover-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .project-category {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+
+        .main-title {
+            font-size: 2.35rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .main-title span {
+            color: var(--secondary-color);
+        }
+
+        .document-subtitle {
+            font-family: 'Merriweather', serif;
+            font-size: 1.15rem;
+            font-style: italic;
+            color: #64748B;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-bottom: 40px;
+            max-width: 90%;
+        }
+
+        .cover-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .metadata-table td {
+            padding: 4px 10px 4px 0;
+            vertical-align: top;
+        }
+        .metadata-table td.label {
+            font-weight: 600;
+            color: var(--text-dark);
+            width: 130px;
+        }
+
+        /* Document Typography */
+        h1, h2, h3, h4 {
+            color: var(--text-dark);
+            font-weight: 700;
+            page-break-after: avoid;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin: 25px 0 12px 0;
+            color: var(--text-dark);
+        }
+
+        p {
+            margin-bottom: 14px;
+            text-align: justify;
+            font-size: 0.95rem;
+        }
+
+        strong {
+            color: var(--text-dark);
+        }
+
+        ul, ol {
+            margin-bottom: 18px;
+            padding-left: 20px;
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Tables styling */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        table.data-table th, table.data-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        table.data-table th {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        /* Callout Box / Highlight Box */
+        .callout-box {
+            background-color: var(--bg-light);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .callout-box.warning {
+            border-left-color: var(--secondary-color);
+            background-color: #FFFDF9;
+        }
+
+        /* Header / Footer for pages inside */
+        .page-header-text {
+            position: absolute;
+            top: 15mm;
+            left: 20mm;
+            right: 20mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94A3B8;
+            border-bottom: 1px solid #F1F5F9;
+            padding-bottom: 6px;
+            display: none; /* Hidden on screen, shown in print via print query */
+        }
+
+        .page-footer-text {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94A3B8;
+            border-top: 1px solid #F1F5F9;
+            padding-top: 6px;
+            display: none; /* Hidden on screen, shown in print via print query */
+        }
+
+        /* Page Content wrapper */
+        .content-wrap {
+            margin-top: 10px;
+        }
+
+        /* Print Settings CSS */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+            .page-header-text, .page-footer-text {
+                display: flex !important; /* Force display on print */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: BÌA BÁO CÁO (COVER PAGE) -->
+    <div class="page">
+        <div class="cover-page">
+            <header class="cover-header">
+                <div class="cover-logos">
+                    <img src="./natcom logo.png" alt="Natcom Logo" class="logo-img" onerror="this.style.display='none'">
+                    <img src="./vds logo.jpg" alt="VDS Logo" class="logo-img" onerror="this.style.display='none'">
+                </div>
+                <div class="doc-tag">TỜ TRÌNH TỔNG GIÁM ĐỐC</div>
+            </header>
+
+            <div class="cover-body">
+                <div class="project-category">DỰ ÁN PINASSI HAITI</div>
+                <h1 class="main-title">
+                    Đề xuất Thí điểm<br>Thanh toán Không tiền mặt<br>tại các <span>Chợ Đầu Mối Haiti</span>
+                </h1>
+                <div class="document-subtitle">
+                    Xây dựng hệ sinh thái số toàn diện cho Merchant & Người dân nhằm hiện thực hóa mục tiêu tài chính toàn diện quốc gia của Ngân hàng Trung ương BRH.
+                </div>
+            </div>
+
+            <footer class="cover-footer">
+                <div>
+                    <table class="metadata-table">
+                        <tr>
+                            <td class="label">Đơn vị đề xuất:</td>
+                            <td>Ban Dự án PINASSI - Công ty Cổ phần Giải pháp Thanh toán số (VDS)</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Đối tượng báo cáo:</td>
+                            <td>Ban Tổng Giám đốc Công ty Natcom & Ví điện tử Natcash</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Kế hoạch Go-live:</td>
+                            <td>15 tháng 10 năm 2026</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="text-align: right; display: flex; flex-direction: column; justify-content: flex-end;">
+                    <strong style="color:var(--text-dark);">TÀI LIỆU LƯU HÀNH NỘI BỘ</strong>
+                    <span style="color:#64748B;">Haiti, tháng 06 năm 2026</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <!-- PAGE 2: MỤC LỤC & TỔNG QUAN -->
+    <div class="page">
+        <div class="page-header-text">
+            <span>TỜ TRÌNH: THÍ ĐIỂM CHỢ ĐẦU MỐI HAITI</span>
+            <span>MỤC LỤC & TỔNG QUAN</span>
+        </div>
+
+        <div class="content-wrap" style="margin-top: 10px;">
+            <h1>Mục lục & Tổng quan Đề xuất</h1>
+            
+            <div style="margin: 20px 0; background: var(--bg-light); padding: 15px 25px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <strong style="display:block; margin-bottom:10px; color:var(--text-dark);">Mục lục nội dung:</strong>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>Tổng quan Đề xuất & Mục tiêu Thử nghiệm</li>
+                    <li>Lựa chọn Địa bàn Thí điểm Chiến lược</li>
+                    <li>Giải pháp Kỹ thuật & Thiết bị Phần cứng (Loa Soundbox)</li>
+                    <li>Quy trình Onboarding & Thực địa (Hybrid eKYC)</li>
+                    <li>Cơ chế Kích cầu cho Người bán & Người mua (Incentives)</li>
+                    <li>Quản trị Rủi ro & Kịch bản Dự phòng (Closed-loop Fallback)</li>
+                    <li>Lộ trình Triển khai & Đề xuất Khẩn cấp</li>
+                </ol>
+            </div>
+
+            <h2 style="margin-top: 30px;">1. Tổng quan Đề xuất & Mục tiêu Thử nghiệm</h2>
+            <p>
+                Dự án <strong>PINASSI (Nền tảng Trung gian Thanh toán không tiền mặt Haiti)</strong> là dự án chiến lược quốc gia được bảo trợ bởi Ngân hàng Trung ương Haiti (BRH) nhằm thúc đẩy tài chính toàn diện. Để hiện thực hóa mục tiêu này, Ban dự án đề xuất giải pháp thử nghiệm thanh toán phi tiền mặt tại một số khu chợ đầu mối trọng điểm trong tháng <strong>10/2026</strong>.
+            </p>
+            <p>
+                Chợ đầu mối truyền thống là nơi tập trung phần lớn lượng giao dịch tiền mặt của người dân và tiểu thương trung lưu/siêu nhỏ. Việc chuyển đổi thành công thói quen thanh toán tại các khu chợ này sẽ tạo ra hiệu ứng domino thúc đẩy thanh toán số cho toàn bộ nền kinh tế Haiti.
+            </p>
+            
+            <div class="callout-box" style="margin-top: 30px;">
+                <strong>KPI Mục tiêu thử nghiệm (Tháng 10/2026):</strong>
+                <ul style="margin: 8px 0 0 15px; font-size: 0.9rem;">
+                    <li>Phát triển thành công tối thiểu <strong>200 Tiểu thương (Merchants)</strong> chấp nhận thanh toán số.</li>
+                    <li>Thu hút trên <strong>10.000 Người mua (Buyers)</strong> hoạt động thường xuyên trên ứng dụng.</li>
+                    <li>Đạt tối thiểu <strong>500 giao dịch/ngày</strong> tại các chợ thí điểm.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-footer-text">
+            <span>Dự án PINASSI Haiti | 2026</span>
+            <span>Trang 2</span>
+        </div>
+    </div>
+
+
+    <!-- PAGE 3: ĐỊA BÀN THÍ ĐIỂM & GIẢI PHÁP PHẦN CỨNG -->
+    <div class="page">
+        <div class="page-header-text">
+            <span>TỜ TRÌNH: THÍ ĐIỂM CHỢ ĐẦU MỐI HAITI</span>
+            <span>ĐỊA BÀN & CÔNG NGHỆ THIẾT BỊ</span>
+        </div>
+
+        <div class="content-wrap" style="margin-top: 10px;">
+            <h1>2. Lựa chọn Địa bàn Thí điểm Chiến lược</h1>
+            <p>
+                Bối cảnh an ninh tại Haiti rất phức tạp khi các băng đảng vũ trang kiểm soát tới 85-90% khu vực đô thị Port-au-Prince. Việc thí điểm diện rộng tại trung tâm thủ đô tiềm ẩn rủi ro an ninh nghiêm trọng. Ban Dự án đề xuất lựa chọn 3 khu chợ có tính ổn định hơn và có thế mạnh hạ tầng viễn thông của Natcom:
+            </p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Khu vực thí điểm</th>
+                        <th style="width: 25%;">Đặc điểm kinh tế</th>
+                        <th style="width: 50%;">Lý do lựa chọn & Tính khả thi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Chợ Pétion-Ville</strong> (Port-au-Prince)</td>
+                        <td>Khu ngoại ô trung-cao cấp, mật độ giao thương cao.</td>
+                        <td>Tình hình an ninh tương đối ổn định hơn so với nội đô. Đã được Thống đốc BRH trực tiếp chỉ định làm địa bàn mục tiêu số 1.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chợ Cap-Haïtien</strong> (Miền Bắc)</td>
+                        <td>Trung tâm kinh tế phía Bắc, giao thông thuận lợi.</td>
+                        <td>An ninh cực kỳ tốt, ít chịu ảnh hưởng từ băng đảng thủ đô. Hạ tầng mạng lưới đại lý Natcom hoạt động mạnh mẽ.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chợ Les Cayes</strong> (Miền Nam)</td>
+                        <td>Thành phố trọng điểm phía Nam Haiti.</td>
+                        <td>Vùng ít bị ảnh hưởng bởi biến động chính trị. Kênh bán hàng thực địa D2D của Natcash hoạt động rất hiệu quả.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>3. Giải pháp Kỹ thuật & Thiết bị Phần cứng</h2>
+            <p>
+                Để giải quyết rào cản về tâm lý công nghệ và rủi ro an ninh sinh tồn (tiểu thương sợ rút điện thoại thông minh ra xem thông báo sẽ bị cướp giật tại chợ), Ban dự án thiết kế bộ giải pháp kết hợp:
+            </p>
+            <ul style="margin-top: 10px;">
+                <li>
+                    <strong>Mã QR tĩnh EMVCo (Static QR):</strong> In decal chống nước chất lượng cao dán trực tiếp tại quầy. Người mua chỉ cần quét mã này bằng điện thoại của họ và tự nhập số tiền thanh toán. Giải pháp này giúp tiểu thương siêu nhỏ không cần tốn chi phí đầu tư máy POS đắt đỏ.
+                </li>
+                <li>
+                    <strong>Thiết bị Loa Soundbox (Công nghệ đột phá):</strong> Loa sử dụng SIM 4G Natcom (APN ưu tiên) kết hợp bộ phát giọng nói Creole/Pháp tức thì (&lt;2 giây, âm lượng lớn &gt;=80dB) phát âm báo ngay khi nhận được tiền. Tiểu thương hoàn toàn rảnh tay bán hàng và không cần mở màn hình điện thoại để check số dư, giảm thiểu rủi ro cướp giật điện thoại tại quầy.
+                </li>
+                <li>
+                    <strong>Công nghệ Offline-first:</strong> Hỗ trợ mã OTP/token mã hóa bảo mật để ghi nhận tạm thời các giao dịch ngoại tuyến khi mạng chập chờn, tự động đồng bộ khi có kết nối trở lại để đảm bảo việc bán hàng không bị gián đoạn.
+                </li>
+            </ul>
+
+            <div style="text-align: center; margin: 15px 0;">
+                <img src="./soundbox_final.jpg" alt="Natcash Soundbox Photo" style="width: 260px; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-size: 0.8rem; color:#64748B; font-style:italic; margin-top:5px;">Hình minh họa: Loa Soundbox báo giao dịch tức thì cho tiểu thương</div>
+            </div>
+        </div>
+
+        <div class="page-footer-text">
+            <span>Dự án PINASSI Haiti | 2026</span>
+            <span>Trang 3</span>
+        </div>
+    </div>
+
+
+    <!-- PAGE 4: QUY TRÌNH ONBOARDING & KÍCH CẦU -->
+    <div class="page">
+        <div class="page-header-text">
+            <span>TỜ TRÌNH: THÍ ĐIỂM CHỢ ĐẦU MỐI HAITI</span>
+            <span>ONBOARDING & CƠ CHẾ KÍCH CẦU</span>
+        </div>
+
+        <div class="content-wrap" style="margin-top: 10px;">
+            <h1>4. Quy trình Onboarding & Hỗ trợ Thực địa (Hybrid eKYC)</h1>
+            <p>
+                Để phát triển nhanh mạng lưới tiểu thương mà vẫn bảo đảm tính pháp lý và giảm tải cho nhân sự vận hành, Ban dự án áp dụng mô hình Hybrid eKYC:
+            </p>
+            <ol style="margin-top: 10px;">
+                <li>
+                    <strong>Đăng ký nhanh qua app (Self-eKYC):</strong> Tiểu thương tự chụp ảnh Căn cước Quốc gia (CIN) và chụp ảnh selfie so khớp khuôn mặt thông qua công nghệ tự động Liveness Detection. Tài khoản merchant được duyệt tự động sau 5 phút.
+                </li>
+                <li>
+                    <strong>Lực lượng thực địa hỗ trợ tại quầy (Salesman & D2D):</strong> Natcom/Natcash huy động lực lượng nhân sự salesman thực địa đi cắm chốt trực tiếp tại các chợ. Đội ngũ này hỗ trợ tiểu thương mở tài khoản, bàn giao loa Soundbox, dán mã QR và hướng dẫn trực quan cách mua bán số cho cả tiểu thương lẫn khách hàng đi chợ.
+                </li>
+                <li>
+                    <strong>Quản lý và giám sát từ xa:</strong> Đội ngũ back-office (BA/CSKH) phê duyệt và giám sát trực tuyến trạng thái kết nối, hoạt động của thiết bị Soundbox thông qua Portal tập trung.
+                </li>
+            </ol>
+
+            <h2 style="margin-top: 25px;">5. Cơ chế Kích cầu thúc đẩy Thanh toán số (Incentive)</h2>
+            <p>
+                Để thay đổi thói quen dùng tiền mặt lâu đời của người dân Haiti, chúng ta cần tạo ra các lợi ích kinh tế trực quan và rõ rệt cho cả người bán lẫn người mua:
+            </p>
+            
+            <div style="margin: 15px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; background-color: var(--bg-light);">
+                    <strong style="color: var(--secondary-color); font-size: 0.95rem;">Đối với Tiểu thương (Merchant)</strong>
+                    <ul style="margin: 8px 0 0 15px; font-size: 0.85rem; padding-left: 10px;">
+                        <li><strong>Trợ giá Soundbox:</strong> Miễn phí đặt cọc loa Soundbox trong 3 tháng đầu; sau đó cho thuê với giá tượng trưng <strong>$1/tháng</strong>.</li>
+                        <li><strong>Tặng Data 4G:</strong> Tặng gói cước data tốc độ cao hàng tháng của Natcom nếu duy trì doanh số thanh toán số qua app đạt mốc tối thiểu.</li>
+                    </ul>
+                </div>
+
+                <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; background-color: var(--bg-light);">
+                    <strong style="color: var(--accent-blue); font-size: 0.95rem;">Đối với Người mua (Buyer)</strong>
+                    <ul style="margin: 8px 0 0 15px; font-size: 0.85rem; padding-left: 10px;">
+                        <li><strong>Chương trình hoàn tiền:</strong> Hoàn tiền (Cashback) trực tiếp từ <strong>1% - 2% giá trị hóa đơn</strong> vào tài khoản ví khi thực hiện quét mã QR thanh toán tại chợ thí điểm.</li>
+                        <li><strong>Đồng tài trợ:</strong> Ngân sách kích cầu hoàn tiền do Natcom và Ngân hàng Trung ương (BRH) cùng đồng tài trợ nhằm kích hoạt thị trường.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-footer-text">
+            <span>Dự án PINASSI Haiti | 2026</span>
+            <span>Trang 4</span>
+        </div>
+    </div>
+
+
+    <!-- PAGE 5: RỦI RO, LỘ TRÌNH & ĐỀ XUẤT -->
+    <div class="page">
+        <div class="page-header-text">
+            <span>TỜ TRÌNH: THÍ ĐIỂM CHỢ ĐẦU MỐI HAITI</span>
+            <span>RỦI RO, LỘ TRÌNH & ĐỀ XUẤT</span>
+        </div>
+
+        <div class="content-wrap" style="margin-top: 10px;">
+            <h1>6. Quản trị Rủi ro & Phương án Dự phòng</h1>
+            <p>
+                Ban dự án đã xây dựng sẵn 2 kịch bản ứng phó cho các rủi ro lớn nhất để đảm bảo tiến độ triển khai:
+            </p>
+            <ul style="margin-top: 10px;">
+                <li>
+                    <strong>Kịch bản Switch BRH chậm trễ:</strong> Nếu hệ thống Switch Phân hệ 3 liên ngân hàng do BRH và đối tác ACI phát triển bị trễ hạn go-live vào ngày 30/06/2026, PINASSI sẽ kích hoạt ngay chế độ <strong>Closed-loop (thanh toán khép kín)</strong>. Cho phép người mua dùng ví Natcash thanh toán trực tiếp sang ví Natcash Merchant của tiểu thương. Đảm bảo tiến độ thí điểm vào đúng ngày <strong>15/10/2026</strong>.
+                </li>
+                <li>
+                    <strong>Rủi ro hư hỏng, mất cắp thiết bị:</strong> Môi trường chợ dễ xảy ra va đập, hỏng hóc hoặc mất trộm loa Soundbox. Natcom sẽ thành lập một <strong>Quỹ dự phòng phần cứng thiết bị</strong> để đổi mới Soundbox miễn phí cho các tiểu thương hoạt động tích cực nếu có sự cố xảy ra.
+                </li>
+            </ul>
+
+            <h2>7. Lộ trình Triển khai & Hành động khẩn cấp</h2>
+            <p>
+                Để kịp mốc vận hành chính thức vào ngày 15/10/2026, các mốc thời gian sau cần được tuân thủ nghiêm ngặt:
+            </p>
+            <div style="margin: 15px 0; border-left: 3px solid var(--accent-blue); padding-left: 15px;">
+                <p style="margin-bottom: 6px;">
+                    📅 <strong>20/06/2026:</strong> Thành lập Ban Dự án khẩn cấp hoạt động trực tiếp tại chỗ tại Haiti (Hoàn thiện nhân sự & thiết kế BRD chi tiết).
+                </p>
+                <p style="margin-bottom: 6px;">
+                    📅 <strong>30/06/2026:</strong> Đánh giá tiến độ Switch liên ngân hàng của BRH để quyết định kích hoạt chế độ Closed-loop.
+                </p>
+                <p style="margin-bottom: 6px;">
+                    📅 <strong>15/10/2026:</strong> Chính thức khai trương chạy thử nghiệm Cashless Pilot tại 3 Chợ đầu mối.
+                </p>
+            </div>
+
+            <div class="callout-box warning" style="margin-top: 20px;">
+                <strong>⚠️ Đề xuất Hành động khẩn cấp trình Tổng Giám đốc phê duyệt:</strong>
+                <p style="margin-top: 6px; font-size: 0.9rem;">
+                    Hiện tại, việc huy động nhân sự chuyên trách sang Haiti đang bị chậm tiến độ (mốc ban đầu là 10/06/2026). Đây là rủi ro lớn nhất cho khâu viết BRD chi tiết. Kính trình Tổng Giám đốc phê duyệt thành lập và cử <strong>Ban dự án khẩn cấp sang Haiti trước ngày 20/06/2026</strong>.
+                </p>
+                <p style="margin-top: 6px; font-size: 0.9rem;">
+                    Đồng thời, đề xuất Tổng Giám đốc ký văn bản làm việc với BRH (BRH nắm 40% cổ phần Natcom) để yêu cầu họ cung cấp bảo trợ pháp lý và hỗ trợ lực lượng an ninh quốc gia (HNP/GSF) tuần tra định kỳ tại các chợ đầu mối thí điểm.
+                </p>
+            </div>
+
+            <table style="width:100%; margin-top: 40px; font-size:0.95rem; border:none;">
+                <tr style="border:none;">
+                    <td style="width: 50%; border:none; text-align: center;">
+                        <span style="color:#64748B; display:block; margin-bottom:50px;">Đại diện Ban dự án PINASSI</span>
+                        <strong>(Đã ký)</strong>
+                    </td>
+                    <td style="width: 50%; border:none; text-align: center;">
+                        <span style="color:#64748B; display:block; margin-bottom:50px;">Phê duyệt của Tổng Giám đốc</span>
+                        <strong>.........................................</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="page-footer-text">
+            <span>Dự án PINASSI Haiti | 2026</span>
+            <span>Trang 5</span>
+        </div>
+    </div>
+
+</body>
+</html>

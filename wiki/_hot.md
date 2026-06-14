@@ -47,13 +47,15 @@ updated: "2026-06-14"
 - [[synthesis/natcash-merchant-ecosystem]] — Hệ sinh thái ứng dụng quản lý bán hàng và tích hợp Soundbox cho tiểu thương.
 - [[timelines/haiti-digital-payment-timeline]] — Dòng thời gian phát triển ví Natcash và lộ trình go-live dự án PINASSI tại Haiti.
 - [[synthesis/proposal-cashless-pilot-markets]] — Đề xuất giải pháp thử nghiệm thanh toán phi tiền mặt tại một số chợ đầu mối.
+- [[synthesis/natcash-merchant-ui-design]] — Đặc tả thiết kế chi tiết toàn bộ các màn hình tính năng cho 3 gói dịch vụ Natcash Merchant.
 
 ---
 
 ## ✏️ Trang wiki đã cập nhật
 
 - [[synthesis/haiti-digital-payment-strategy]] — Tích hợp dự án PINASSI, vai trò của ACI và các hệ thống thanh toán trung tâm (SPIH, PRONAP).
-- [[wiki/INDEX.md]] — Cập nhật toàn bộ chỉ mục hệ thống với 16 trang tri thức.
+- [[wiki/INDEX.md]] — Cập nhật toàn bộ chỉ mục hệ thống với 17 trang tri thức.
+- [[wiki/_log.md]] — Cập nhật nhật ký thay đổi hệ thống.
 
 ---
 
@@ -84,6 +86,9 @@ updated: "2026-06-14"
 - **2026-06-14 21:55**: Đã tạo thêm trang dòng thời gian `timelines/haiti-digital-payment-timeline` và cập nhật chỉ mục tổng thể (15 trang).
 - **2026-06-14 22:05**: Đã tạo thêm trang đề xuất `synthesis/proposal-cashless-pilot-markets` và cập nhật chỉ mục tổng thể (16 trang).
 - **2026-06-14 22:25**: Cập nhật mô hình Onboarding & eKYC Hybrid tận dụng Salesman/D2D thực địa tại trang đề xuất.
+- **2026-06-14 23:26**: Đã thiết kế chi tiết các màn hình giao diện tính năng cho từng gói dịch vụ Natcash Merchant (Cá Nhân, HKD/SME, Chuỗi/Enterprise) và loa Soundbox tại trang `synthesis/natcash-merchant-ui-design` (17 trang).
+- **2026-06-14 23:33**: Xây dựng bản nguyên mẫu tương tác (Interactive UI Mockup) giả lập thiết bị di động và đặc tả Figma-ready chi tiết tại [output/natcash_merchant_mockups.html](file:///c:/0.CuongPH/datastore/llm-wiki-vault/llm-wiki-vault/output/natcash_merchant_mockups.html).
+
 
 ---
 

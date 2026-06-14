@@ -32,4 +32,8 @@ type: system
 - 2026-06-14 21:55 | CREATE | Đã tạo trang dòng thời gian timelines/haiti-digital-payment-timeline
 - 2026-06-14 22:05 | CREATE | Đã tạo trang đề xuất synthesis/proposal-cashless-pilot-markets
 - 2026-06-14 22:25 | UPDATE | Đã cập nhật quy trình Onboarding & eKYC của trang đề xuất synthesis/proposal-cashless-pilot-markets
+- 2026-06-14 23:26 | CREATE | Đã tạo trang thiết kế giao diện synthesis/natcash-merchant-ui-design và cập nhật INDEX.md
+- 2026-06-14 23:33 | CREATE | Đã tạo bản nguyên mẫu tương tác và thông số Figma-ready tại output/natcash_merchant_mockups.html và cập nhật trang thiết kế
+
+
 
