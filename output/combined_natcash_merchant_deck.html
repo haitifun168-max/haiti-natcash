@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiến lược Toàn diện & Thí điểm Cashless Markets tại Haiti — Natcash Merchant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        :root {
+            --bg-primary: #05070B;
+            --bg-secondary: #0B0E14;
+            --bg-card: rgba(15, 20, 32, 0.75);
+            --border-card: rgba(255, 255, 255, 0.08);
+            
+            --color-primary: #FF6B00; /* Natcash Orange */
+            --color-secondary: #0084FF; /* Natcom Blue */
+            --color-success: #10B981; /* Mint Green */
+            --color-warning: #F59E0B;
+            --color-danger: #EF4444;
+            
+            --text-main: #E5E7EB;
+            --text-muted: #9CA3AF;
+            --text-bright: #FFFFFF;
+            
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --slide-transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Ambient Background Light */
+        .ambient-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.07) 0%, rgba(0, 132, 255, 0.04) 50%, rgba(0,0,0,0) 100%);
+            top: -10%;
+            right: -10%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 132, 255, 0.07) 0%, rgba(255, 107, 0, 0.03) 60%, rgba(0,0,0,0) 100%);
+            bottom: -10%;
+            left: -10%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Presentation Container */
+        .presentation {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: calc(100vh - 120px);
+            z-index: 1;
+        }
+
+        /* Slides Wrapper */
+        .slides-container {
+            position: relative;
+            width: 92%;
+            max-width: 1360px;
+            height: 88%;
+            perspective: 1500px;
+        }
+
+        /* Individual Slide */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateZ(-150px) rotateX(8deg);
+            transition: opacity 0.8s var(--slide-transition), 
+                        transform 0.8s var(--slide-transition), 
+                        visibility 0.8s var(--slide-transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px 45px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateZ(0) rotateX(0deg);
+            z-index: 10;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%) translateZ(-150px) rotateY(-15deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .slide.next {
+            transform: translateX(100%) translateZ(-150px) rotateY(15deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Typography & Layouts */
+        h1, h2, h3, h4 {
+            font-family: var(--font-title);
+            font-weight: 700;
+        }
+
+        .slide-header {
+            margin-bottom: 15px;
+            border-left: 5px solid var(--color-primary);
+            padding-left: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .slide-header h2 {
+            font-size: 2.1rem; /* Tăng từ 1.85rem lên 2.1rem */
+            color: var(--text-bright);
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+        }
+
+        .slide-header .slide-subtitle {
+            font-size: 0.95rem; /* Tăng từ 0.8rem lên 0.95rem */
+            color: var(--text-muted);
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .slide-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 1.08rem; /* Tăng từ 0.95rem lên 1.08rem */
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        /* Header bar of the presentation page */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 4%;
+            background: rgba(5, 7, 11, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            font-family: var(--font-title);
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+        }
+
+        .logo-text {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--color-primary);
+        }
+
+        .project-tag {
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            color: var(--color-primary);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer / Navigation Control Bar */
+        .footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 4%;
+            background: rgba(5, 7, 11, 0.85);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-bright);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 107, 0, 0.4);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--color-primary);
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        /* Cover Slide Layout */
+        .title-slide-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .title-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-left h1 {
+            font-size: 2.5rem;
+            line-height: 1.25;
+            color: var(--text-bright);
+            margin-bottom: 16px;
+            letter-spacing: -0.75px;
+        }
+
+        .title-left h1 span {
+            background: linear-gradient(to right, var(--color-primary), #FFA057);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-left p.subtitle {
+            font-size: 1.15rem; /* Tăng từ 1.05rem lên 1.15rem */
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .title-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            aspect-ratio: 4/3;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 107, 0, 0.20);
+            box-shadow: 0 15px 35px rgba(255, 107, 0, 0.15), 0 0 40px rgba(0, 132, 255, 0.1);
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Generic grids */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px; /* Tăng khoảng cách grid cho thoáng hơn */
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card-custom {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px; /* Tăng từ 16px lên 18px */
+            padding: 20px; /* Tăng padding từ 16px lên 20px */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card-custom.highlight {
+            border-color: rgba(0, 132, 255, 0.35);
+            background: rgba(0, 132, 255, 0.02);
+        }
+
+        .card-custom.highlight-orange {
+            border-color: rgba(255, 107, 0, 0.35);
+            background: rgba(255, 107, 0, 0.02);
+        }
+
+        .card-title {
+            font-size: 1.25rem; /* Tăng từ 1.05rem lên 1.25rem */
+            font-weight: 700; /* Tăng độ đậm */
+            color: var(--text-bright);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title svg {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .card-title.blue-svg svg {
+            color: var(--color-secondary);
+        }
+
+        .card-desc {
+            font-size: 0.98rem; /* Tăng từ 0.85rem lên 0.98rem */
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .badge-number {
+            background: rgba(255, 107, 0, 0.15);
+            color: var(--color-primary);
+            width: 28px; /* Tăng từ 24px lên 28px */
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.92rem; /* Tăng từ 0.8rem lên 0.92rem */
+            flex-shrink: 0;
+        }
+
+        .badge-number.blue {
+            background: rgba(0, 132, 255, 0.15);
+            color: var(--color-secondary);
+        }
+
+        /* Timeline style */
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            padding-left: 22px; /* Tăng padding-left */
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            left: 5px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -22px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary);
+        }
+
+        .timeline-dot.blue {
+            background: var(--color-secondary);
+            box-shadow: 0 0 8px var(--color-secondary);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 18px; /* Tăng padding */
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timeline-time {
+            font-size: 0.88rem; /* Tăng từ 0.75rem lên 0.88rem */
+            font-weight: bold;
+            color: var(--color-primary);
+            text-transform: uppercase;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-bright);
+            margin: 2px 0;
+            font-size: 1.02rem; /* Tăng từ 0.88rem lên 1.02rem */
+        }
+
+        /* Info Alert Box */
+        .alert-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #FFA5A5;
+            border-radius: 12px;
+            padding: 14px; /* Tăng từ 12px lên 14px */
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 0.98rem; /* Tăng từ 0.85rem lên 0.98rem */
+        }
+
+        .alert-box.warning {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #FFE0A3;
+        }
+
+        /* Large statistics */
+        .kpi-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(255, 107, 0, 0.03);
+            border: 1px solid rgba(255, 107, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px; /* Tăng từ 16px lên 20px */
+            margin-bottom: 18px;
+        }
+
+        .kpi-card {
+            text-align: center;
+        }
+
+        .kpi-num {
+            font-family: var(--font-title);
+            font-size: 2.8rem; /* Tăng từ 2.4rem lên 2.8rem */
+            font-weight: 800;
+            line-height: 1;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+            background: linear-gradient(to bottom, #FFF, var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .kpi-num.blue {
+            color: var(--color-secondary);
+            background: linear-gradient(to bottom, #FFF, var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem; /* Tăng từ 0.75rem lên 0.85rem */
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Map layout in Slide 7 */
+        .map-section {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 310px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 12, 18, 0.6);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0.95;
+        }
+
+        /* Neon Map Point Overlays */
+        .map-pin {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .pin-glow {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            box-shadow: 0 0 12px var(--color-primary);
+            position: relative;
+        }
+
+        .pin-glow.blue {
+            background: var(--color-secondary);
+            box-shadow: 0 0 12px var(--color-secondary);
+        }
+
+        .pin-glow::after {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: -7px;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            animation: pulse-ring 1.5s infinite ease-out;
+            opacity: 0;
+            transform: translate(-7px, -7px);
+        }
+
+        .pin-glow.blue::after {
+            border-color: var(--color-secondary);
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .pin-label {
+            background: rgba(15, 20, 32, 0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-bright);
+            padding: 3px 8px; /* Tăng padding */
+            border-radius: 6px;
+            font-size: 0.85rem; /* Tăng từ 0.7rem lên 0.85rem */
+            font-weight: 600;
+            margin-top: 4px;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .kbd-hint {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-family: monospace;
+            font-size: 0.8rem; /* Tăng từ 0.75rem lên 0.8rem */
+            color: var(--text-bright);
+        }
+
+        .btn-fullscreen {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .btn-fullscreen:hover {
+            color: var(--text-bright);
+        }
+
+        /* Progress bar */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 200;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            transition: width 0.3s ease;
+        }
+
+        .soundbox-photo-container {
+            width: 100%;
+            height: 180px; /* Tăng từ 140px lên 180px */
+            border-radius: 12px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .soundbox-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Competitors table */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem; /* Tăng từ 0.76rem lên 0.9rem */
+            text-align: left;
+        }
+        .comp-table th, .comp-table td {
+            padding: 10px 14px; /* Tăng padding của bảng */
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .comp-table th {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-bright);
+            font-weight: 600;
+        }
+        .comp-table tr:hover td {
+            background: rgba(255,255,255,0.01);
+        }
+
+        /* Text styling */
+        .accent-orange { color: var(--color-primary); font-weight: 700; }
+        .accent-blue { color: var(--color-secondary); font-weight: 700; }
+        .accent-success { color: var(--color-success); font-weight: 700; }
+        
+        .feat-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 12px; /* Tăng padding */
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border-left: 4px solid var(--color-primary); /* Tăng viền bên trái lên 4px */
+            margin-bottom: 6px; /* Tăng khoảng cách */
+        }
+        .feat-row.blue-border {
+            border-color: var(--color-secondary);
+        }
+        .feat-row.green-border {
+            border-color: var(--color-success);
+        }
+        .feat-text {
+            font-size: 0.92rem; /* Tăng từ 0.78rem lên 0.92rem */
+            line-height: 1.5;
+            color: #C3CAD9;
+        }
+        .feat-text strong {
+            color: var(--text-bright);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <div class="logo-badge">N</div>
+            <div class="logo-text">Natcash <span>Merchant</span></div>
+        </div>
+        <div class="project-tag">PINASSI STRATEGIC DECK · 2026</div>
+        <button class="btn-fullscreen" id="btnFullscreen" title="Toàn màn hình">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Main Presentation -->
+    <main class="presentation">
+        <div class="slides-container">
+
+            <!-- SLIDE 1: COVER -->
+            <section class="slide active" id="slide-1">
+                <div class="title-slide-layout">
+                    <div class="title-left">
+                        <h1>Chiến lược Toàn diện &<br>Thí điểm Thanh toán<br><span>Không tiền mặt tại Haiti</span></h1>
+                        <p class="subtitle">Đề xuất xây dựng hệ sinh thái số toàn diện cho Merchant & Người dân giúp thúc đẩy tài chính toàn diện quốc gia dưới sự bảo trợ của BRH.<br><strong>Kế hoạch Go-live: 15/10/2026</strong></p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 18px;">
+                            <div>
+                                <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing: 1px;">Đơn vị đề xuất</div>
+                                <div style="font-weight:600; font-size:0.95rem; color:var(--text-bright); margin-top: 2px;">Ban Dự án PINASSI</div>
+                            </div>
+                            <div>
+                                <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing: 1px;">Nơi thực hiện</div>
+                                <div style="font-weight:600; font-size:0.95rem; color:var(--text-bright); margin-top: 2px;">Natcom & Natcash</div>
+                            </div>
+                            <div>
+                                <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing: 1px;">Tài liệu số</div>
+                                <div style="font-weight:600; font-size:0.95rem; color:var(--text-bright); margin-top: 2px;">Haiti Market Intelligence</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="title-right">
+                        <div class="cover-image-container">
+                            <img src="./market_soundbox_qr.png" alt="Fintech in Haiti market" class="cover-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: CONTEXT & MARKET SIZE -->
+            <section class="slide" id="slide-2">
+                <div class="slide-header">
+                    <h2>Bối cảnh thực tế & Quy mô thị trường Haiti</h2>
+                    <div class="slide-subtitle">Thách thức an ninh & Tiềm năng to lớn</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-2x2">
+                        <!-- Left Top: Security challenges -->
+                        <div class="card-custom highlight-orange">
+                            <div class="card-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                Rào cản An ninh & smartphone
+                            </div>
+                            <p class="card-desc">
+                                Băng đảng kiểm soát <strong>85-90% Port-au-Prince</strong>. Tiểu thương cực kỳ e ngại việc rút điện thoại thông minh tại sạp chợ vì nguy cơ cướp giật cao. Hơn <strong>90% giao dịch</strong> ngoài chợ vẫn dùng tiền mặt.
+                            </p>
+                        </div>
+                        
+                        <!-- Right Top: Market Stats -->
+                        <div class="card-custom">
+                            <div class="card-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                                Các chỉ số vĩ mô ấn tượng (2025-2026)
+                            </div>
+                            <p class="card-desc">
+                                Dân số Haiti: <strong>~11 triệu dân</strong>, tỷ lệ unbanked đạt <strong>89% (BRH)</strong>. Dòng kiều hối hàng năm từ Mỹ đạt <strong>~$3 tỷ USD</strong> (chiếm 1/3 GDP). Tổng thanh toán số dự báo đạt <strong>$1.88 tỷ USD (2025F)</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Left Bottom: Target segment -->
+                        <div class="card-custom">
+                            <div class="card-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                Phân khúc Merchant mục tiêu
+                            </div>
+                            <div style="font-size:0.92rem; color:var(--text-muted); display:flex; flex-direction:column; gap:6px;">
+                                <div>• <strong>~660K MSME</strong> chính thức & phi chính thức (10% dân số trưởng thành).</div>
+                                <div>• <strong>~180K SME</strong> có cửa hàng cố định & dòng tiền ổn định.</div>
+                                <div>• <strong>~2,500</strong> chuỗi siêu thị, nhà thuốc, trạm xăng lớn.</div>
+                            </div>
+                        </div>
+
+                        <!-- Right Bottom: Telecom Foundation -->
+                        <div class="card-custom highlight">
+                            <div class="card-title blue-svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Lợi thế hạ tầng Natcom & BRH
+                            </div>
+                            <p class="card-desc">
+                                Natcom phủ sóng 4G đạt <strong>80%+ tại Port-au-Prince</strong>. Chỉ <strong>21% doanh nghiệp</strong> sử dụng mobile payment -> Cơ hội cực lớn để triển khai dự án PINASSI kết nối ví Natcash mở rộng điểm bán.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: QUICK SALE & SOUNDBOX SOLUTION -->
+            <section class="slide" id="slide-3">
+                <div class="slide-header">
+                    <h2>Giải pháp Quick Sale: Số hóa Điểm bán lẻ Haiti</h2>
+                    <div class="slide-subtitle">Vận hành tối giản — An ninh sinh tồn</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-3col">
+                        <!-- POS app -->
+                        <div class="card-custom highlight-orange" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div class="card-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 00-2 2zM9 9h6v6H9V9z" />
+                                    </svg>
+                                    Smart POS di động
+                                </div>
+                                <p class="card-desc" style="margin-top: 4px;">
+                                    Ứng dụng POS trực quan trên smartphone cho tiểu thương:
+                                </p>
+                                <ul style="margin: 8px 0 0 16px; color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px;">
+                                    <li>Lên đơn siêu tốc, quét mã qua camera.</li>
+                                    <li><strong>Lưu đơn tạm</strong> lúc đông khách hàng.</li>
+                                    <li>Tự động tính tiền thừa tránh sai lệch.</li>
+                                </ul>
+                            </div>
+                            <div style="background: rgba(255,107,0,0.08); color: var(--color-primary); font-size: 0.85rem; font-weight: bold; text-align: center; padding: 6px; border-radius: 8px; margin-top: 10px;">
+                                TỐI ƯU VẬN HÀNH
+                            </div>
+                        </div>
+
+                        <!-- Cashbook -->
+                        <div class="card-custom" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div class="card-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Smart Cash & Sổ Quỹ
+                                </div>
+                                <p class="card-desc" style="margin-top: 4px;">
+                                    Số hóa dòng tiền kinh doanh hàng ngày, thay thế sổ tay:
+                                </p>
+                                <ul style="margin: 8px 0 0 16px; color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px;">
+                                    <li>Ghi chép tự động thu chi nhỏ lẻ phát sinh.</li>
+                                    <li>Đối soát dòng tiền tự động chính xác 100%.</li>
+                                    <li>Lịch sử dòng tiền làm cơ sở chấm điểm tín dụng.</li>
+                                </ul>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.04); color: var(--text-bright); font-size: 0.85rem; font-weight: bold; text-align: center; padding: 6px; border-radius: 8px; margin-top: 10px;">
+                                QUẢN TRỊ DÒNG TIỀN
+                            </div>
+                        </div>
+
+                        <!-- Soundbox IoT -->
+                        <div class="card-custom highlight" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div class="card-title blue-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    </svg>
+                                    Loa Soundbox IoT độc quyền
+                                </div>
+                                <p class="card-desc" style="margin-top: 4px;">
+                                    Phần cứng giải quyết bài toán an ninh sinh tồn tại Haiti:
+                                </p>
+                                <ul style="margin: 8px 0 0 16px; color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px;">
+                                    <li>Phát âm báo giao dịch bằng tiếng Creole/Pháp dưới 2 giây.</li>
+                                    <li>Âm lượng lớn <strong>(>=80dB)</strong>, tiểu thương không cần nhìn điện thoại.</li>
+                                    <li>Triệt tiêu rủi ro cướp giật & hóa đơn giả tại chợ.</li>
+                                </ul>
+                            </div>
+                            <div style="background: rgba(0, 132, 255, 0.08); color: var(--color-secondary); font-size: 0.85rem; font-weight: bold; text-align: center; padding: 6px; border-radius: 8px; margin-top: 10px;">
+                                AN NINH TUYỆT ĐỐI
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: COMPETITOR ANALYSIS -->
+            <section class="slide" id="slide-4">
+                <div class="slide-header">
+                    <h2>Bản đồ Cạnh tranh & Phân tích Đối thủ</h2>
+                    <div class="slide-subtitle">Vị thế độc tôn về tính năng của Natcash Merchant</div>
+                </div>
+                <div class="slide-body">
+                    <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: center;">
+                        <div>
+                            <table class="comp-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tính năng</th>
+                                        <th style="color:#FF6B00;">MonCash</th>
+                                        <th style="color:#A855F7;">Lajan/HaitiPay</th>
+                                        <th style="color:#0084FF; background:rgba(0,132,255,0.06);">Natcash Merchant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>App quản lý bán hàng Merchant riêng biệt</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-success)">✅ Đầy đủ 3 gói</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Loa IoT Soundbox báo nhận tiền tức thì</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-success)">✅ Độc quyền phần cứng</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quản lý nhân viên & phân ca tại quầy</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-success)">✅ Gói SME+</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quản lý dòng tiền đa chi nhánh/sổ quỹ</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-success)">✅ Gói Chuỗi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chấm điểm tín dụng AI cấp vốn vi mô</td>
+                                        <td style="color:var(--color-warning)">Giới hạn</td>
+                                        <td style="color:var(--color-danger)">❌</td>
+                                        <td style="color:var(--color-success)">✅ Tích hợp Core AI</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <div class="feat-row"><span class="feat-text"><strong>MonCash (Digicel):</strong> Chiếm thị phần C2C lớn (~2M users), nhưng <strong>chưa có công cụ quản trị Merchant chuyên biệt</strong>, giao dịch phụ thuộc vào USSD/QR đơn giản, kém bảo mật tại sạp chợ.</span></div>
+                            <div class="feat-row blue-border"><span class="feat-text"><strong>Lajan Cash & HaitiPay:</strong> HaitiPay tập trung khai thác kiều hối Mỹ-Haiti, Lajan Cash nhắm tới vùng nông thôn bằng USSD. Cả hai không định vị cạnh tranh B2B Merchant.</span></div>
+                            <div class="feat-row green-border"><span class="feat-text"><strong>Cơ hội vàng cho Natcash:</strong> Các đối thủ đang bỏ ngỏ phân khúc công cụ bán hàng. Việc kết hợp phần mềm quản lý và thiết bị Soundbox tạo rào cản công nghệ cực lớn.</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: FIRST MOVER ADVANTAGE & BENCHMARK -->
+            <section class="slide" id="slide-5">
+                <div class="slide-header">
+                    <h2>Lợi thế First Mover & Benchmark Quốc tế</h2>
+                    <div class="slide-subtitle">Bài học thành công từ Sacombank & VNPAY Việt Nam</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-3col" style="align-items: stretch; gap: 20px;">
+                        <!-- Cột 1: Lợi thế First Mover -->
+                        <div style="display:flex; flex-direction:column; gap:12px; justify-content: center;">
+                            <div class="feat-row green-border" style="padding: 10px 14px;">
+                                <span class="feat-text"><strong>Không có đối thủ tại Caribbean:</strong> Hiện tại chưa có ví điện tử hay tổ chức tài chính nào tại Haiti và khu vực Caribbean triển khai thiết bị Soundbox IoT.</span>
+                            </div>
+                            <div class="feat-row green-border" style="padding: 10px 14px;">
+                                <span class="feat-text"><strong>Kế thừa nền tảng từ Việt Nam 🇻🇳:</strong> VDS thừa hưởng mã nguồn và kinh nghiệm vận hành hệ thống loa báo từ Việt Nam 🇻🇳 (triển khai 400K+ loa), giúp rút ngắn thời gian phát triển từ 18 tháng xuống còn <strong>4 - 6 tuần</strong>.</span>
+                            </div>
+                            <div class="feat-row blue-border" style="padding: 10px 14px;">
+                                <span class="feat-text"><strong>Hiệu ứng mạng lưới (Network Effect):</strong> Khi sạp chợ đầu tiên phát tiếng Soundbox báo nhận tiền thành công, các sạp xung quanh sẽ chủ động tự đăng ký theo hiệu ứng lan tỏa.</span>
+                            </div>
+                        </div>
+
+                        <!-- Cột 2: Benchmark Quốc tế -->
+                        <div style="background: rgba(255, 107, 0, 0.02); border: 1px solid rgba(255,107,0,0.1); padding: 18px; border-radius: 18px; display:flex; flex-direction:column; justify-content:center; gap:10px;">
+                            <h4 style="color: var(--color-primary); font-size:1.15rem; margin-bottom:4px; display:flex; align-items:center; gap:6px; font-weight:700;">
+                                🌎 Benchmark Soundbox quốc tế
+                            </h4>
+                            
+                            <!-- India Card -->
+                            <div class="card-custom" style="padding: 10px 14px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.04);">
+                                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
+                                    <span>🇮🇳</span> Ấn Độ (Paytm & PhonePe)
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45;">
+                                    Hơn <strong>5 triệu</strong> Soundbox hoạt động. Trở thành nguồn thu ổn định qua thuê bao thiết bị ($1.5 - $2/tháng) và giữ chân Merchant trung thành tuyệt đối.
+                                </p>
+                            </div>
+
+                            <!-- Vietnam Card -->
+                            <div class="card-custom" style="padding: 10px 14px; background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.04);">
+                                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-bright); display: flex; align-items: center; gap: 6px;">
+                                    <span>🇻🇳</span> Việt Nam (VNPAY)
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45;">
+                                    Liên kết một tài khoản thanh toán với nhiều Soundbox tại các quầy khác nhau, đối soát tập trung. Giải pháp tối ưu vận hành vượt trội.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Cột 3: Ảnh Soundbox đứng to rõ -->
+                        <div class="card-custom highlight-orange" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 14px;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                                Thiết bị Natcash Speaker
+                            </div>
+                            <div class="soundbox-photo-container" style="height: 240px; width: 100%; margin-top: 0; background: transparent;">
+                                <img src="./soundbox_final.jpg" alt="Natcash Soundbox" class="soundbox-photo" style="max-height: 100%; object-fit: contain;">
+                            </div>
+                            <div style="background: rgba(255,107,0,0.1); color: var(--color-primary); font-size: 0.78rem; font-weight: bold; text-align: center; padding: 4px 12px; border-radius: 20px; margin-top: 14px; border: 1px solid rgba(255,107,0,0.2);">
+                                🔊 Giọng đọc Creole/Pháp
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: REVENUE OPPORTUNITY & FINANCIAL MODEL -->
+            <section class="slide" id="slide-6">
+                <div class="slide-header">
+                    <h2>Cơ hội Doanh thu & Kịch bản Tài chính Thực tế (VDS & Natcom)</h2>
+                    <div class="slide-subtitle">Tính toán dựa trên nghiên cứu khả thi thị trường Haiti (Fintech Feasibility Analysis)</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-2x2">
+                        <!-- Pilot scenario -->
+                        <div style="background:rgba(255, 107, 0, 0.04); border:1px solid rgba(255,107,0,0.18); padding:20px; border-radius:18px;">
+                            <h4 style="color:var(--color-primary); font-size:1.25rem; margin-bottom:12px; font-weight:700;">📈 Kịch bản Pilot — 1,000 Soundbox (Năm 1)</h4>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                                <div style="background:rgba(255,255,255,0.02); border-radius:10px; padding:12px; text-align:center;">
+                                    <div style="font-size:1.35rem; font-weight:800; color:var(--color-primary);">~$8.4K/tháng</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">MDR 1% (460 HTG/tx, 8tx/ngày/merchant)</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.02); border-radius:10px; padding:12px; text-align:center;">
+                                    <div style="font-size:1.35rem; font-weight:800; color:#0084FF;">~$5.0K/tháng</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Phí thuê loa Soundbox (trung bình $5/thiết bị/tháng)</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.02); border-radius:10px; padding:12px; text-align:center; grid-column:span 2;">
+                                    <div style="font-size:1.45rem; font-weight:800; color:#FFF;">~$13.4K / tháng</div>
+                                    <div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">Tổng doanh thu trực tiếp thực tế (Hoàn vốn thiết bị cực nhanh: 4-5 tháng)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scale-up scenario -->
+                        <div style="background:rgba(0, 132, 255, 0.04); border:1px solid rgba(0,132,255,0.18); padding:20px; border-radius:18px; display:flex; flex-direction:column; justify-content:space-between;">
+                            <div>
+                                <h4 style="color:#0084FF; font-size:1.25rem; margin-bottom:10px; font-weight:700;">🏆 Kịch bản Scale-up — 50,000 Soundbox (Năm 3)</h4>
+                                <div style="font-size:0.92rem; display:flex; flex-direction:column; gap:6px; color:#C3CAD9; line-height:1.5;">
+                                    <div>• <strong>Doanh thu MDR:</strong> ~$525K/tháng (1% GMV thanh toán thực tế).</div>
+                                    <div>• <strong>Doanh thu thuê loa:</strong> ~$250K/tháng (trung bình $5/thiết bị sau trợ giá).</div>
+                                    <div>• <strong>CASA Float income:</strong> ~$2.4K/tháng (số dư ví trung bình $20/merchant).</div>
+                                    <div>• <strong>Phí tín dụng vi mô:</strong> ~$2.5K/tháng (1% referral fee dư nợ vay).</div>
+                                </div>
+                            </div>
+                            <div style="background:rgba(0,132,255,0.12); padding:10px; border-radius:10px; text-align:center; color:#FFF; font-weight:700; font-size:0.95rem; margin-top:10px;">
+                                Doanh thu tiềm năng thực tế liên doanh VDS - Natcom: ~$780K/tháng
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: PILOT LOCATIONS & GTM SEGMENTS -->
+            <section class="slide" id="slide-7">
+                <div class="slide-header">
+                    <h2>Địa bàn Thí điểm & Phân tầng Khách hàng GTM</h2>
+                    <div class="slide-subtitle">Tiếp cận thực tế — Phân vùng an toàn</div>
+                </div>
+                <div class="slide-body">
+                    <div class="map-section">
+                        <!-- Left: Info -->
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <div class="card-custom" style="padding:14px 18px; display:flex; gap:12px; align-items:center;">
+                                <div class="badge-number">1</div>
+                                <div>
+                                    <h5 style="color:var(--text-bright); font-size:1.0rem; font-weight:700;">Tầng 1: Cá nhân/Tiểu thương (Miễn cọc Soundbox, Radio FM)</h5>
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Onboard qua Agent Network (3K+). Pilot tại <strong>Chợ Cap-Haïtien</strong> (An ninh phía Bắc cực ổn định) & <strong>Chợ Les Cayes</strong> (Cơ sở đại lý mạnh).</p>
+                                </div>
+                            </div>
+                            
+                            <div class="card-custom highlight" style="padding:14px 18px; display:flex; gap:12px; align-items:center;">
+                                <div class="badge-number blue">2</div>
+                                <div>
+                                    <h5 style="color:var(--text-bright); font-size:1.0rem; font-weight:700;">Tầng 2: SME/Hộ kinh doanh (Sales B2B trực tiếp, Ngân hàng đối tác)</h5>
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Cửa hàng, nhà thuốc, F&B. Trọng điểm tại khu vực an toàn thủ đô: <strong>Chợ Pétion-Ville</strong> (BRH định vị làm mô hình mẫu).</p>
+                                </div>
+                            </div>
+
+                            <div class="card-custom" style="padding:14px 18px; display:flex; gap:12px; align-items:center;">
+                                <div class="badge-number">3</div>
+                                <div>
+                                    <h5 style="color:var(--text-bright); font-size:1.0rem; font-weight:700;">Tầng 3: Chuỗi/Enterprise (Account Manager riêng, kết nối ERP/API)</h5>
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Siêu thị, trạm xăng lớn. Lobby qua CCIH, PoC thử nghiệm miễn phí 30 ngày.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Map -->
+                        <div class="map-wrapper">
+                            <img src="./haiti_map_1781452365793.png" alt="Haiti Map" class="map-image">
+                            
+                            <!-- Cap-Haitien pin -->
+                            <div class="map-pin" style="top: 22%; left: 56%;">
+                                <div class="pin-glow"></div>
+                                <div class="pin-label">Cap-Haïtien (North)</div>
+                            </div>
+
+                            <!-- Petion-Ville pin -->
+                            <div class="map-pin" style="top: 68%; left: 42%;">
+                                <div class="pin-glow blue"></div>
+                                <div class="pin-label">Pétion-Ville (Capital)</div>
+                            </div>
+
+                            <!-- Les Cayes pin -->
+                            <div class="map-pin" style="top: 80%; left: 24%;">
+                                <div class="pin-glow"></div>
+                                <div class="pin-label">Les Cayes (South)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: INCENTIVE FRAMEWORK -->
+            <section class="slide" id="slide-8">
+                <div class="slide-header">
+                    <h2>Cơ chế Kích cầu thúc đẩy Thanh toán số (Incentives)</h2>
+                    <div class="slide-subtitle">Tạo động lực kép cho Merchant và Người mua hàng</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-2x2">
+                        <!-- Merchant incentives -->
+                        <div class="card-custom highlight-orange">
+                            <div class="card-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Hỗ trợ cho Tiểu thương (Merchant)
+                            </div>
+                            <div style="font-size:0.95rem; color:var(--text-muted); display:flex; flex-direction:column; gap:6px; margin-top:8px; line-height:1.5;">
+                                <div>• <strong>Miễn đặt cọc thiết bị:</strong> Cho mượn loa Soundbox hoàn toàn miễn phí trong 3 tháng đầu chạy Pilot.</div>
+                                <div>• <strong>Trợ giá thuê loa:</strong> Sau thời gian dùng thử, phí thuê chỉ <strong>$1/tháng</strong> đối với tiểu thương sạp chợ truyền thống.</div>
+                                <div>• <strong>Tặng gói cước viễn thông:</strong> Natcom tài trợ gói cước data 4G miễn phí hàng tháng dùng cho thiết bị Soundbox nếu Merchant đạt KPI giao dịch.</div>
+                            </div>
+                        </div>
+
+                        <!-- Buyer incentives -->
+                        <div class="card-custom highlight">
+                            <div class="card-title blue-svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Thu hút người mua (Buyer) - Cashback
+                            </div>
+                            <div style="font-size:0.95rem; color:var(--text-muted); display:flex; flex-direction:column; gap:6px; margin-top:8px; line-height:1.5;">
+                                <div>• <strong>Cashback trực tiếp:</strong> Hoàn tiền từ <strong>1% - 2% giá trị hóa đơn</strong> trực tiếp vào ví Natcash của người mua khi quét mã thanh toán tại chợ thí điểm.</div>
+                                <div>• <strong>Ngân sách tài trợ kích cầu:</strong> Do Natcom phối hợp cùng Ngân hàng Trung ương BRH đồng tài trợ (quỹ phát triển tài chính toàn diện quốc gia).</div>
+                                <div>• <strong>Tạo thói quen tiêu dùng mới:</strong> Giúp người dân thấy được lợi ích tài chính rõ rệt ngay khi từ bỏ tiền mặt.</div>
+                            </div>
+                        </div>
+
+                        <!-- Joint effort -->
+                        <div class="card-custom" style="grid-column: span 2; background: rgba(16, 185, 129, 0.02); border-color: rgba(16, 185, 129, 0.2); padding: 20px;">
+                            <div class="card-title" style="color: var(--color-success)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                Chiến lược phát triển dài hạn: Sức mạnh cộng hưởng từ BRH & Natcom
+                            </div>
+                            <p class="card-desc" style="font-size: 0.95rem; margin-top: 6px; line-height: 1.55;">
+                                Tận dụng lợi thế <strong>BRH đang sở hữu 40% cổ phần Natcom</strong> để vận động ngân sách tài trợ quốc gia. Sự tham gia của Ngân hàng Trung ương tạo uy tín tuyệt đối để thuyết phục người dân tin tưởng lưu trữ tài sản trên ví điện tử thay vì giữ tiền mặt trong túi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: RISK MANAGEMENT & FALLBACK -->
+            <section class="slide" id="slide-9">
+                <div class="slide-header">
+                    <h2>Quản trị Rủi ro & Phương án Dự phòng (Contingency Fallback)</h2>
+                    <div class="slide-subtitle">Giải pháp chủ động phòng ngừa biến cố</div>
+                </div>
+                <div class="slide-body">
+                    <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: center;">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Fallback switch -->
+                            <div class="card-custom highlight-orange">
+                                <h4 style="color:var(--text-bright); font-size:1.05rem; margin-bottom:4px; display:flex; align-items:center; gap:6px; font-weight:700;">
+                                    <span class="badge-number">!</span> Chậm tiến độ Switch liên ngân hàng của BRH (ACI phát triển)
+                                </h4>
+                                <p class="card-desc" style="font-size:0.92rem;">
+                                    Hệ thống cổng Switch thanh toán của BRH có nguy cơ chậm tiến độ go-live.
+                                </p>
+                                <div style="background: rgba(255, 107, 0, 0.08); border-left: 3px solid var(--color-primary); padding: 8px; margin-top: 6px; border-radius: 4px; font-size: 0.88rem; color: var(--text-bright); line-height: 1.5;">
+                                    <strong>Giải pháp Fallback Closed-loop:</strong> Natcash kích hoạt chế độ thanh toán nội bộ khép kín (Ví Natcash sang Ví Natcash Merchant) không cần thông qua Switch BRH. Bảo đảm tiến độ thí điểm chạy đúng ngày <strong>15/10/2026</strong>.
+                                </div>
+                            </div>
+                            
+                            <!-- Hardware loss -->
+                            <div class="card-custom">
+                                <h4 style="color:var(--text-bright); font-size:1.05rem; margin-bottom:4px; display:flex; align-items:center; gap:6px; font-weight:700;">
+                                    <span class="badge-number blue">!</span> Hỏng hóc, mất cắp thiết bị tại chợ truyền thống
+                                </h4>
+                                <p class="card-desc" style="font-size:0.92rem;">
+                                    Điều kiện thời tiết chợ khắc nghiệt và an ninh phức tạp có thể gây hư hỏng thiết bị.
+                                </p>
+                                <div style="background: rgba(0, 132, 255, 0.08); border-left: 3px solid var(--color-secondary); padding: 8px; margin-top: 6px; border-radius: 4px; font-size: 0.88rem; color: var(--text-bright); line-height: 1.5;">
+                                    <strong>Giải pháp:</strong> Thành lập <strong>Quỹ dự phòng phần cứng</strong> do Natcom quản lý. Cam kết đổi thiết bị Soundbox mới miễn phí cho tiểu thương hoạt động tích cực nếu gặp sự cố khách quan (mất cắp, hư hỏng).
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <div class="alert-box warning">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <div>
+                                    <strong style="display:block; margin-bottom:4px; color:var(--color-warning); font-size: 1.05rem;">ĐIỂM NÓNG CẦN HÀNH ĐỘNG NGAY</strong>
+                                    Nhân sự chuyên trách tại Haiti đang bị chậm tiến độ huy động. Đề xuất thành lập <strong>Ban dự án khẩn cấp</strong> tại chỗ trước ngày <strong>20/06/2026</strong>.
+                                </div>
+                            </div>
+                            
+                            <div class="card-custom" style="border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.02);">
+                                <h4 style="color:var(--color-danger); font-size:1.05rem; margin-bottom:4px; font-weight:700;">Yêu cầu hỗ trợ pháp lý từ BRH:</h4>
+                                <p class="card-desc" style="font-size:0.92rem; line-height:1.5;">
+                                    Tận dụng quan hệ sở hữu để BRH ban hành văn bản bảo trợ pháp lý và phối hợp cùng lực lượng Cảnh sát Quốc gia (HNP/GSF) đảm bảo an ninh tuần tra tại các chợ thí điểm.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: ROADMAP & KPIS -->
+            <section class="slide" id="slide-10">
+                <div class="slide-header">
+                    <h2>Lộ trình triển khai Go-to-Market & KPIs mục tiêu</h2>
+                    <div class="slide-subtitle">Các cột mốc hành động & Kết quả kỳ vọng</div>
+                </div>
+                <div class="slide-body">
+                    <!-- KPIs -->
+                    <div class="kpi-container">
+                        <div class="kpi-card">
+                            <div class="kpi-num">200+</div>
+                            <div class="kpi-label">Tiểu thương chạy Pilot (Merchants)</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-num blue">10K+</div>
+                            <div class="kpi-label">Người mua kích hoạt ví (Active Buyers)</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-num">500+</div>
+                            <div class="kpi-label">Giao dịch/Ngày tại chợ (Txns/day)</div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline GTM -->
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content" style="padding: 14px 20px;">
+                                <div>
+                                    <span class="timeline-time" style="font-size:0.9rem;">P0: Thiết lập (Tuần 1-4)</span>
+                                    <h5 class="timeline-title" style="font-size:1.05rem;">Bản địa hóa ứng dụng & Nhập khẩu phần cứng</h5>
+                                </div>
+                                <div style="font-size:0.88rem; color:var(--text-muted); text-align:right;">Creole hóa app, import 1,000 Soundbox, đào tạo sales force.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot blue"></div>
+                            <div class="timeline-content" style="padding: 14px 20px;">
+                                <div>
+                                    <span class="timeline-time" style="font-size:0.9rem;">P1: Chạy thử nghiệm Pilot (Tháng 2-3)</span>
+                                    <h5 class="timeline-title" style="font-size:1.05rem;">Bắt đầu Golive đúng hạn 15/10/2026 tại 3 Chợ đầu mối</h5>
+                                </div>
+                                <div style="font-size:0.88rem; color:var(--text-bright); font-weight:600; text-align:right;">Áp dụng cashback 1-2%, hỗ trợ tại quầy của đội D2D.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content" style="padding: 14px 20px;">
+                                <div>
+                                    <span class="timeline-time" style="font-size:0.9rem;">P2 & P3: Mở rộng & Khai thác (Tháng 4+)</span>
+                                    <h5 class="timeline-title" style="font-size:1.05rem;">Nhân rộng toàn quốc & Triển khai tín dụng AI</h5>
+                                </div>
+                                <div style="font-size:0.88rem; color:var(--text-muted); text-align:right;">Bán chéo dịch vụ cho vay vi mô cho Merchant dựa trên dòng tiền sổ quỹ.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: DEMO QUICK SALE & CALL-TO-ACTION -->
+            <section class="slide" id="slide-11">
+                <div class="slide-header">
+                    <h2>Kịch bản Trình diễn Thực chiến Quick Sale</h2>
+                    <div class="slide-subtitle">Trực quan hóa trải nghiệm giải pháp bán hàng di động</div>
+                </div>
+                <div class="slide-body" style="align-items: center; justify-content: center; text-align: center; padding: 20px 0;">
+                    <div style="max-width: 780px; background: rgba(255, 107, 0, 0.03); border: 1px solid rgba(255, 107, 0, 0.15); padding: 35px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);">
+                        <div class="badge-number" style="width: 44px; height: 44px; font-size: 1.3rem; margin-bottom: 12px;">➔</div>
+                        <h3 style="font-size: 1.7rem; color: var(--text-bright); margin-bottom: 12px; font-weight:700;">Trình diễn Kịch bản Demo Quick Sale</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; font-size: 1.05rem;">
+                            Trình bày chi tiết luồng tương tác thực tế từ khâu tự Onboarding eKYC của Merchant, lên đơn hàng siêu tốc tại quầy POS, nhận âm báo tức thì từ loa IoT Soundbox đến đối soát dòng tiền tự động trên sổ quỹ Cash Book.
+                        </p>
+                        
+                        <div style="display: flex; justify-content: center; gap: 20px;">
+                            <a href="../raw/demo1/index.html" target="_blank" style="background: linear-gradient(135deg, var(--color-primary) 0%, #FFA057 100%); color: white; text-decoration: none; padding: 12px 28px; border-radius: 30px; font-weight: 700; font-size: 1.0rem; box-shadow: 0 5px 15px rgba(255, 107, 0, 0.4); transition: transform 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                                Khởi chạy Demo Quick Sale ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Control Bar -->
+    <footer class="footer-bar">
+        <div class="slide-counter">
+            SLIDE <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">11</span>
+        </div>
+        <div class="slide-dots" id="slideDots">
+            <!-- Dots generated by JS -->
+        </div>
+        <div class="controls">
+            <span style="font-size: 0.75rem; color: var(--text-muted); margin-right: 10px;">Dùng phím <span class="kbd-hint">←</span> <span class="kbd-hint">→</span></span>
+            <button class="btn-nav" id="btnPrev" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button class="btn-nav" id="btnNext">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('slideDots');
+        const currentSlideNumSpan = document.getElementById('currentSlideNum');
+        const totalSlidesNumSpan = document.getElementById('totalSlidesNum');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const progressBar = document.getElementById('progressBar');
+        const btnFullscreen = document.getElementById('btnFullscreen');
+        
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+        
+        totalSlidesNumSpan.textContent = totalSlides;
+
+        // Initialize dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+        
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlideClasses() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev', 'next');
+                if (index === currentSlideIndex) {
+                    slide.classList.add('active');
+                } else if (index < currentSlideIndex) {
+                    slide.classList.add('prev');
+                } else {
+                    slide.classList.add('next');
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlideIndex);
+            });
+
+            // Update counter
+            currentSlideNumSpan.textContent = currentSlideIndex + 1;
+
+            // Enable/disable buttons
+            btnPrev.disabled = currentSlideIndex === 0;
+            btnNext.disabled = currentSlideIndex === totalSlides - 1;
+
+            // Update progress bar
+            const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlideIndex = index;
+                updateSlideClasses();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                updateSlideClasses();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                updateSlideClasses();
+            }
+        }
+
+        // Event Listeners
+        btnNext.addEventListener('click', nextSlide);
+        btnPrev.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Fullscreen Mode
+        btnFullscreen.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Lỗi chế độ toàn màn hình: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Update active class on init
+        updateSlideClasses();
+    </script>
+</body>
+</html>

@@ -16,12 +16,12 @@ source: "[[raw/2026-06-14-example-karpathy-llm-wiki.md]]"
 
 ## 📌 Nội dung chính
 
-Kiến trúc "LLM Wiki" được đề xuất bởi Andrej Karpathy như một phương án thay thế tinh gọn và hiệu quả hơn so với RAG (Retrieval-Augmented Generation) truyền thống. Thay vì tìm kiếm tài liệu thô mỗi lần có truy vấn, hệ thống sử dụng LLM để đọc nguồn thô một lần, phân tích và tích hợp chúng vào các trang wiki có liên kết chéo thông qua `[[wikilinks]]`.
+Kiến trúc "LLM Wiki" được đề xuất bởi Andrej Karpathy như một phương án thay thế tinh gọn và hiệu quả hơn so với RAG (Retrieval-Augmented Generation) truyền thống. Thay vì tìm kiếm tài liệu thô mỗi lần có truy vấn, hệ thống sử dụng LLM để đọc nguồn thô một lần, phân tích và tích hợp chúng vào các trang wiki có liên kết chéo thông qua **wikilinks**.
 
 Kiến trúc gồm các thành phần chính:
 - `raw/`: Thư mục chứa các nguồn dữ liệu thô bất biến.
 - `wiki/`: Thư viện bách khoa (encyclopedia) được xây dựng và duy trì bởi AI.
-- `[[wikilinks]]`: Các liên kết chéo kết nối các khái niệm lại với nhau.
+- **wikilinks**: Các liên kết chéo kết nối các khái niệm lại với nhau.
 - `INDEX.md`: Cổng vào chính của wiki.
 - `_log.md`: Nhật ký thay đổi (append-only) của wiki.
 - `_hot.md`: Tóm tắt các thay đổi trong 7 ngày gần nhất để làm context nhanh cho Agent.

@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân tích Persona & Bản đồ Tính năng Quick Sale — Natcash Merchant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        :root {
+            --bg-primary: #05070B;
+            --bg-secondary: #0B0E14;
+            --bg-card: rgba(15, 20, 32, 0.75);
+            --border-card: rgba(255, 255, 255, 0.08);
+            
+            --color-primary: #FF6B00; /* Natcash Orange */
+            --color-secondary: #0084FF; /* Natcom Blue */
+            --color-success: #10B981; /* Mint Green */
+            --color-warning: #F59E0B;
+            
+            --text-main: #E5E7EB;
+            --text-muted: #9CA3AF;
+            --text-bright: #FFFFFF;
+            
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --slide-transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Ambient Background Light */
+        .ambient-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.06) 0%, rgba(0, 132, 255, 0.03) 50%, rgba(0,0,0,0) 100%);
+            top: -10%;
+            right: -10%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 132, 255, 0.06) 0%, rgba(255, 107, 0, 0.03) 60%, rgba(0,0,0,0) 100%);
+            bottom: -10%;
+            left: -10%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Presentation Container */
+        .presentation {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: calc(100vh - 120px);
+            z-index: 1;
+        }
+
+        /* Slides Wrapper */
+        .slides-container {
+            position: relative;
+            width: 92%;
+            max-width: 1360px;
+            height: 88%;
+            perspective: 1500px;
+        }
+
+        /* Individual Slide */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateZ(-150px) rotateX(8deg);
+            transition: opacity 0.8s var(--slide-transition), 
+                        transform 0.8s var(--slide-transition), 
+                        visibility 0.8s var(--slide-transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px 45px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateZ(0) rotateX(0deg);
+            z-index: 10;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%) translateZ(-150px) rotateY(-15deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .slide.next {
+            transform: translateX(100%) translateZ(-150px) rotateY(15deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Typography & Layouts */
+        h1, h2, h3, h4 {
+            font-family: var(--font-title);
+            font-weight: 700;
+        }
+
+        .slide-header {
+            margin-bottom: 15px;
+            border-left: 5px solid var(--color-primary);
+            padding-left: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .slide-header h2 {
+            font-size: 2.45rem;
+            color: var(--text-bright);
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+        }
+
+        .slide-header .slide-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .slide-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 1.22rem;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        /* Header bar of the presentation page */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 4%;
+            background: rgba(5, 7, 11, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            font-family: var(--font-title);
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+        }
+
+        .logo-text {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--color-primary);
+        }
+
+        .project-tag {
+            background: rgba(0, 132, 255, 0.1);
+            border: 1px solid rgba(0, 132, 255, 0.25);
+            color: var(--color-secondary);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer / Navigation Control Bar */
+        .footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 4%;
+            background: rgba(5, 7, 11, 0.85);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-bright);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 107, 0, 0.4);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--color-primary);
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        /* Cover Slide Layout */
+        .title-slide-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .title-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-left h1 {
+            font-size: 2.5rem;
+            line-height: 1.25;
+            color: var(--text-bright);
+            margin-bottom: 16px;
+            letter-spacing: -0.75px;
+        }
+
+        .title-left h1 span {
+            background: linear-gradient(to right, var(--color-primary), #FFA057);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-left p.subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .title-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            aspect-ratio: 4/3;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 107, 0, 0.20);
+            box-shadow: 0 15px 35px rgba(255, 107, 0, 0.15), 0 0 40px rgba(0, 132, 255, 0.1);
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Generic grids */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card-custom {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card-custom.highlight {
+            border-color: rgba(0, 132, 255, 0.35);
+            background: rgba(0, 132, 255, 0.02);
+        }
+
+        .card-custom.highlight-orange {
+            border-color: rgba(255, 107, 0, 0.35);
+            background: rgba(255, 107, 0, 0.02);
+        }
+
+        .card-custom.highlight-green {
+            border-color: rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title svg {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .card-title.blue-svg svg {
+            color: var(--color-secondary);
+        }
+
+        .card-desc {
+            font-size: 1.08rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .badge-number {
+            background: rgba(255, 107, 0, 0.15);
+            color: var(--color-primary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.92rem;
+            flex-shrink: 0;
+        }
+
+        .badge-number.blue {
+            background: rgba(0, 132, 255, 0.15);
+            color: var(--color-secondary);
+        }
+
+        .badge-number.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--color-success);
+        }
+
+        .kbd-hint {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-bright);
+        }
+
+        .btn-fullscreen {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .btn-fullscreen:hover {
+            color: var(--text-bright);
+        }
+
+        /* Progress bar */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 200;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            transition: width 0.3s ease;
+        }
+
+        /* Mapping Matrix Table */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.05rem;
+            text-align: left;
+        }
+        
+        .matrix-table th, .matrix-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .matrix-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-bright);
+            font-weight: 700;
+        }
+
+        .matrix-table tr:hover td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .accent-orange { color: var(--color-primary); font-weight: 700; }
+        .accent-blue { color: var(--color-secondary); font-weight: 700; }
+        .accent-success { color: var(--color-success); font-weight: 700; }
+        
+        .feat-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--color-primary);
+            margin-bottom: 6px;
+        }
+
+        .feat-row.blue-border {
+            border-color: var(--color-secondary);
+        }
+
+        .feat-row.green-border {
+            border-color: var(--color-success);
+        }
+
+        .feat-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #C3CAD9;
+        }
+
+        .feat-text strong {
+            color: var(--text-bright);
+        }
+
+        /* Slide specific styles */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .persona-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .persona-1-color { background: rgba(255, 107, 0, 0.15); color: var(--color-primary); border: 1px solid rgba(255, 107, 0, 0.25); }
+        .persona-2-color { background: rgba(0, 132, 255, 0.15); color: var(--color-secondary); border: 1px solid rgba(0, 132, 255, 0.25); }
+        .persona-3-color { background: rgba(16, 185, 129, 0.15); color: var(--color-success); border: 1px solid rgba(16, 185, 129, 0.25); }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <div class="logo-badge">Q</div>
+            <div class="logo-text">Quick Sale <span>x Persona Mapping</span></div>
+        </div>
+        <div class="project-tag">TIÊU CHUẨN ĐỊNH VỊ TÍNH NĂNG HAITI · 2026</div>
+        <button class="btn-fullscreen" id="btnFullscreen" title="Toàn màn hình">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Presentation Viewport -->
+    <main class="presentation">
+        <div class="slides-container" id="slidesContainer">
+
+            <!-- SLIDE 1: COVER -->
+            <section class="slide active" id="slide-1">
+                <div class="title-slide-layout">
+                    <div class="title-left">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30">Báo cáo Chiến lược</span>
+                            <span class="text-xs text-gray-500">•</span>
+                            <span class="text-xs text-gray-400">Phiên bản 1.0 (06/2026)</span>
+                        </div>
+                        <h1>Bản đồ Tính năng Quick Sale<br>Theo <span>3 Nhóm Persona</span> tại Haiti</h1>
+                        <p class="subtitle">
+                            Ánh xạ tính năng thực tế từ kịch bản demo <strong>Quick Sale</strong> vào nhu cầu, hành vi, và chính sách giá (Flex-pricing) của từng nhóm nhà bán hàng <strong>Natcash Merchant</strong> tại thị trường thực địa Haiti.
+                        </p>
+                        <div class="flex items-center gap-6 mt-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></div>
+                                <span class="text-xs text-gray-400">Thiết kế cho BGĐ Natcash & Natcom</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title-right">
+                        <div class="cover-image-container">
+                            <img src="./three_personas_haiti_v2.png" alt="Natcash Three Personas Haiti" class="cover-image" style="object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: TRIẾT LÝ THIẾT KẾ FIT-FOR-PURPOSE -->
+            <section class="slide" id="slide-2">
+                <div class="slide-header">
+                    <h2>Triết lý Thiết kế "Fit-for-Purpose"</h2>
+                    <div class="slide-subtitle">Không thừa, không thiếu tại thị trường Haiti</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-2col gap-8">
+                        <div class="flex flex-col justify-center gap-4">
+                            <p class="text-gray-300 leading-relaxed">
+                                Haiti có <strong>90%+ giao dịch dùng tiền mặt</strong> và lạm phát cao. Trình độ số hóa của các Merchant rất phân mảnh. Ép buộc các tiểu thương sạp chợ sử dụng các tính năng quản lý kho hàng phức tạp (nhập SKU, mã vạch) sẽ tạo ra lực cản lớn (ma sát sử dụng), dẫn đến ứng dụng bị bỏ rơi.
+                            </p>
+                            <div style="background: rgba(255, 107, 0, 0.05); border: 1px solid rgba(255, 107, 0, 0.15);" class="p-4 rounded-xl text-sm text-[#FF6B00] font-medium">
+                                💡 <strong>Nguyên tắc cốt lõi:</strong> Bán hàng rong cần sự "vô hình" của công nghệ; cửa hàng cố định cần "kiểm soát thất thoát"; chuỗi lớn cần "API tích hợp & đối soát dòng tiền tập trung".
+                            </div>
+                        </div>
+                        <div class="grid-3col gap-4">
+                            <div class="card-custom highlight-orange flex flex-col justify-between">
+                                <div>
+                                    <span class="persona-badge persona-1-color">Madam Sara</span>
+                                    <h4 class="text-white font-bold text-base mt-2">Lite Mode</h4>
+                                    <p class="text-xs text-gray-400 mt-2">QR dán & Loa báo thanh toán, 100% không chạm app tại quầy sạp.</p>
+                                </div>
+                                <span class="text-xs font-bold text-[#FF6B00] mt-4">$1/tháng</span>
+                            </div>
+
+                            <div class="card-custom highlight flex flex-col justify-between">
+                                <div>
+                                    <span class="persona-badge persona-2-color">Mom-and-Pop (Jean)</span>
+                                    <h4 class="text-white font-bold text-base mt-2">SME+ Mode</h4>
+                                    <p class="text-xs text-gray-400 mt-2">POS di động chọn nhanh combo, Sổ quỹ Cash Book, phân quyền cashier.</p>
+                                </div>
+                                <span class="text-xs font-bold text-[#0084FF] mt-4">$5/tháng</span>
+                            </div>
+
+                            <div class="card-custom highlight-green flex flex-col justify-between">
+                                <div>
+                                    <span class="persona-badge persona-3-color">Chuỗi (Pierre)</span>
+                                    <h4 class="text-white font-bold text-base mt-2">Enterprise Mode</h4>
+                                    <p class="text-xs text-gray-400 mt-2">API kết nối POS/ERP có sẵn, quản trị đa chi nhánh và ví tổng.</p>
+                                </div>
+                                <span class="text-xs font-bold text-[#10B981] mt-4">$15/tháng</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: PERSONA 1 - MADAM SARA (TIỂU THƯƠNG DI ĐỘNG) -->
+            <section class="slide" id="slide-3">
+                <div class="slide-header">
+                    <h2>👩‍🌾 Persona 1: Madam Sara — Giải pháp Không chạm App</h2>
+                    <div class="slide-subtitle">Ưu tiên an ninh sinh tồn & Thao tác rảnh tay</div>
+                </div>
+                <div class="slide-body">
+                    <div class="persona-grid">
+                        <div class="card-custom highlight-orange">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider mb-1 font-bold">Hồ sơ sạp chợ lưu động</div>
+                            <h3 class="text-white text-xl font-bold mb-3">Phục vụ sạp chợ đầu mối & bán lẻ rong</h3>
+                            <ul class="text-xs text-gray-300 space-y-2 leading-relaxed">
+                                <li>• <strong>Nhu cầu:</strong> Nhận tiền cực nhanh, an toàn tuyệt đối, không cần mở điện thoại thông minh (sợ cướp giật).</li>
+                                <li>• <strong>Rào cản:</strong> Trình độ công nghệ thấp, không quen thao tác app di động. Biên lợi nhuận cực mỏng.</li>
+                                <li>• <strong>Mức phí đề xuất:</strong> <strong>$1 USD/tháng</strong> thuê loa (Miễn cọc 3 tháng đầu Pilot, miễn phí hoàn toàn nếu đạt KPI giao dịch).</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <h4 class="text-white text-base font-bold">Các tính năng Quick Sale được ứng dụng:</h4>
+                            
+                            <div class="feat-row">
+                                <span class="feat-text">
+                                    <strong>🔊 Module 3 - Loa thông báo Natcash Speaker (Creole):</strong> Khách quét mã QR dán tại sạp, loa phát to rõ bằng tiếng Creole: *"Natcash resevwa 460 goud"*. Madam Sara xác nhận tiền về tức thì mà không cần sờ vào điện thoại.
+                                </span>
+                            </div>
+
+                            <div class="feat-row">
+                                <span class="feat-text">
+                                    <strong>🛡️ Chống bill giả (Fake Bill):</strong> Loại bỏ rủi ro bị lừa đảo bằng ảnh chụp hóa đơn giao dịch giả mạo. Âm thanh loa là bằng chứng pháp lý duy nhất để giao hàng.
+                                </span>
+                            </div>
+
+                            <div class="feat-row">
+                                <span class="feat-text">
+                                    <strong>📱 Giao diện Lite siêu giản lược:</strong> Khi cần đối soát cuối ngày, Madam Sara chỉ cần mở app xem 1 dòng duy nhất thể hiện tổng doanh thu trong ngày bằng đồng Gourde (HTG) (không phân kho, không SKU).
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: PERSONA 2 - JEAN (CHỦ TẠP HÓA CỐ ĐỊNH / SME) -->
+            <section class="slide" id="slide-4">
+                <div class="slide-header">
+                    <h2>🏪 Persona 2: Jean — SME+ & POS Bán hàng di động</h2>
+                    <div class="slide-subtitle">Chống thất thoát dòng tiền & Quản lý bán hàng tối giản</div>
+                </div>
+                <div class="slide-body">
+                    <div class="persona-grid">
+                        <div class="card-custom highlight">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider mb-1 font-bold">Hộ kinh doanh gia đình</div>
+                            <h3 class="text-white text-xl font-bold mb-3">Chủ cửa hàng tạp hóa, tiệm thuốc, quán ăn</h3>
+                            <ul class="text-xs text-gray-300 space-y-2 leading-relaxed">
+                                <li>• <strong>Nhu cầu:</strong> Quản lý tiền thừa tiền thiếu của nhân viên, chống thất thoát ví riêng, theo dõi công nợ khách quen.</li>
+                                <li>• <strong>Rào cản:</strong> Nhân viên bán hàng nhập tay chậm trễ giờ cao điểm, hay tính sai tiền Gourde thối lại.</li>
+                                <li>• <strong>Mức phí đề xuất:</strong> <strong>$5 USD/tháng</strong> thuê loa & sử dụng app. MDR cố định 1%.</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-white text-base font-bold">Các tính năng Quick Sale được ứng dụng:</h4>
+                            
+                            <div class="feat-row blue-border">
+                                <span class="feat-text">
+                                    <strong>🍔 Module 2 - Cỗ máy POS & Combo:</strong> Jean thiết lập sẵn <strong>Combo bán chạy</strong> trên app. Nhân viên tại quầy chỉ cần 1 click chọn combo, áp chiết khấu % hoặc Gourde giảm giá nhanh chóng.
+                                </span>
+                            </div>
+
+                            <div class="feat-row blue-border">
+                                <span class="feat-text">
+                                    <strong>💾 Lưu tạm đơn (Draft Order) & Máy tính thối tiền:</strong> Khi khách đang thanh toán chợt nhớ ra mua thiếu, nhân viên nhấn "Lưu tạm đơn" để bán cho khách tiếp theo. Hệ thống tự động tính tiền thừa thối lại bằng Gourde khi khách đưa các mệnh giá (500, 1000, 2000 HTG).
+                                </span>
+                            </div>
+
+                            <div class="feat-row blue-border">
+                                <span class="feat-text">
+                                    <strong>📓 Sổ quỹ Cash Book & Phân quyền Cashier:</strong> Tự động ghi chép doanh thu số. Cho phép nhân viên ghi nhận chi phí nhỏ phát sinh (ví dụ: "Mua đá lạnh" 500 HTG). Tài khoản nhân viên chỉ được nhận tiền, không được rút tiền hoặc xem báo cáo ví tổng của Jean.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: PERSONA 3 - PIERRE (CHUỖI ENTERPRISE) -->
+            <section class="slide" id="slide-5">
+                <div class="slide-header">
+                    <h2>🏬 Persona 3: Pierre — Enterprise & API Tích hợp POS</h2>
+                    <div class="slide-subtitle">Quản trị đa chi nhánh tập trung & Đối soát tự động</div>
+                </div>
+                <div class="slide-body">
+                    <div class="persona-grid">
+                        <div class="card-custom highlight-green">
+                            <div class="text-xs text-gray-400 uppercase tracking-wider mb-1 font-bold">Chuỗi cửa hàng & Siêu thị lớn</div>
+                            <h3 class="text-white text-xl font-bold mb-3">Giám đốc vận hành chuỗi siêu thị, trạm xăng</h3>
+                            <ul class="text-xs text-gray-300 space-y-2 leading-relaxed">
+                                <li>• <strong>Nhu cầu:</strong> API mở đồng bộ hệ thống POS/ERP có sẵn, quản lý dòng tiền đa chi nhánh, ví tổng đối soát tức thời.</li>
+                                <li>• <strong>Rào cản:</strong> Hệ thống thanh toán mới phải mượt mà, không làm gián đoạn hệ thống POS hiện tại của siêu thị.</li>
+                                <li>• <strong>Mức phí đề xuất:</strong> <strong>$15 USD/tháng</strong> mỗi loa chi nhánh (đi kèm gói cam kết SLA 24/7). MDR 0.5% - 0.8% (đàm phán theo GMV).</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-white text-base font-bold">Các tính năng Quick Sale được ứng dụng:</h4>
+                            
+                            <div class="feat-row green-border">
+                                <span class="feat-text">
+                                    <strong>⚡ Module 1 - eKYC Doanh nghiệp & Liên kết API:</strong> Phân luồng đăng ký riêng cho tổ chức lớn. Tải hồ sơ TIN, đăng ký kinh doanh trực tiếp. Kết nối API đồng bộ hóa đơn thanh toán trực tiếp từ phần mềm POS của siêu thị.
+                                </span>
+                            </div>
+
+                            <div class="feat-row green-border">
+                                <span class="feat-text">
+                                    <strong>🏢 Module 4 - Quản trị chuỗi đa chi nhánh:</strong> Quản trị viên trung tâm giám sát hiệu suất và doanh số của các chi nhánh phụ (Sub-Merchant) như Delmas, Pétion-Ville theo thời gian thực.
+                                </span>
+                            </div>
+
+                            <div class="feat-row green-border">
+                                <span class="feat-text">
+                                    <strong>🔄 Đồng bộ danh mục và Nhiều loa 1 ví:</strong> Giới hạn 20 danh mục sản phẩm của từng chi nhánh để tối ưu bộ nhớ. Liên kết nhiều loa Soundbox tại nhiều quầy thu ngân khác nhau của siêu thị về chung 1 tài khoản ví tổng của Pierre.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: MA TRẬN ÁNH XẠ TÍNH NĂNG (FEATURE MAPPING MATRIX) -->
+            <section class="slide" id="slide-6">
+                <div class="slide-header">
+                    <h2>Ma trận Ánh xạ Tính năng Quick Sale vs Persona</h2>
+                    <div class="slide-subtitle">Thiết kế phân hệ chức năng tương ứng nhu cầu thực tế</div>
+                </div>
+                <div class="slide-body">
+                    <div class="overflow-x-auto">
+                        <table class="matrix-table text-xs">
+                            <thead>
+                                <tr>
+                                    <th>Phân hệ Quick Sale</th>
+                                    <th>Mô tả tính năng chi tiết</th>
+                                    <th class="accent-orange">P1. Madam Sara</th>
+                                    <th class="accent-blue">P2. Jean (SME)</th>
+                                    <th class="accent-success">P3. Pierre (Enterprise)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 1: Onboarding eKYC</td>
+                                    <td>Chụp giấy tờ pháp lý (CIN/TIN) & Liên kết ngân hàng trong 5 phút.</td>
+                                    <td class="accent-orange">Cơ bản (Self-eKYC)</td>
+                                    <td class="accent-blue">Cơ bản (Self-eKYC)</td>
+                                    <td class="accent-success">Nâng cao (Hợp đồng & API)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 2: Smart POS</td>
+                                    <td>Chọn hàng nhanh, gợi ý Combo, áp chiết khấu, thối tiền thừa.</td>
+                                    <td class="text-gray-500">❌ Không cần dùng</td>
+                                    <td class="accent-blue">✅ Thao tác trên máy POS di động</td>
+                                    <td class="accent-success">✅ Tích hợp trực tiếp qua API POS</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 2: Draft Order</td>
+                                    <td>Lưu tạm đơn hàng và khôi phục nhanh để phục vụ khách khác.</td>
+                                    <td class="text-gray-500">❌ Không cần dùng</td>
+                                    <td class="accent-blue">✅ Dùng nhiều lúc cao điểm</td>
+                                    <td class="text-gray-500">❌ Siêu thị dùng POS chuyên dụng</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 3: Loa IoT Soundbox</td>
+                                    <td>Loa phát âm thanh nhận tiền Creole/Pháp thời gian thực, chống bill giả.</td>
+                                    <td class="accent-orange">✅ Độc quyền phần cứng Lite</td>
+                                    <td class="accent-blue">✅ Loa cố định tại quầy sạp</td>
+                                    <td class="accent-success">✅ Nhiều loa liên kết 1 ví tổng</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 4: Đa Chi Nhánh</td>
+                                    <td>Giao diện Admin quản trị các Sub-Merchant tại Delmas, Pétion-Ville...</td>
+                                    <td class="text-gray-500">❌ Không dùng</td>
+                                    <td class="text-gray-500">❌ Không dùng (cửa hàng đơn)</td>
+                                    <td class="accent-success">✅ Quản trị tập trung, đồng bộ menu</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 5: Sổ Quỹ Cash Book</td>
+                                    <td>Ghi nhận các khoản thu số và phiếu chi tiêu mặt nhỏ (đá lạnh, sỉ hàng).</td>
+                                    <td class="text-gray-500">❌ Không dùng</td>
+                                    <td class="accent-blue">✅ Quản trị chống hụt quỹ</td>
+                                    <td class="accent-success">✅ Tự động hóa qua luồng POS ERP</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Module 5: Loyalty Points</td>
+                                    <td>Thiết lập tỷ lệ tích điểm và quy đổi mã giảm giá (100 HTG = 1 MP).</td>
+                                    <td class="text-gray-500">❌ Không dùng</td>
+                                    <td class="accent-blue">✅ Khuyến khích khách quay lại</td>
+                                    <td class="accent-success">✅ Đồng bộ hệ thống CRM chuỗi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: KỊCH BẢN DEMO THỰC CHIẾN CHO TỪNG PERSONA -->
+            <section class="slide" id="slide-7">
+                <div class="slide-header">
+                    <h2>Kịch bản Demo Tương ứng cho Từng Phân khúc</h2>
+                    <div class="slide-subtitle">Cách Product Owner thuyết phục điểm bán Onboard</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-3col gap-4">
+                        <div class="card-custom highlight-orange flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-white font-bold text-base mb-2">1. Demo cho Madam Sara</h4>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    - <strong>Cách demo:</strong> Chỉ cầm 1 tấm Decal QR và 1 chiếc loa thông báo mini GPRS.
+                                    <br>- <strong>Thao tác:</strong> Dùng điện thoại demo chuyển tiền qua ví. Loa phát tiếng to: *"Natcash resevwa 460 goud"*.
+                                    <br>- <strong>Thông điệp nhấn mạnh:</strong> *"Chị thấy không? Cần gì lôi smartphone ra sạp chợ. Nghe tiếng loa là xong, cực kỳ an toàn, không sợ cướp!"*
+                                </p>
+                            </div>
+                            <span class="text-xs font-bold text-[#FF6B00]">Mục tiêu chốt sales: Bán hàng rảnh tay</span>
+                        </div>
+
+                        <div class="card-custom highlight flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-white font-bold text-base mb-2">2. Demo cho cửa hàng Jean</h4>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    - <strong>Cách demo:</strong> Sử dụng app POS di động + loa Soundbox kết nối Wi-Fi.
+                                    <br>- <strong>Thao tác:</strong> Tạo nhanh Combo ăn sáng trên màn hình. Thanh toán bằng tiền mặt 1,000 HTG. App tự động tính tiền thừa thối lại 150 HTG. Tạo 1 phiếu chi "mua đá lạnh" 500 HTG trên Sổ Quỹ.
+                                    <br>- <strong>Thông điệp nhấn mạnh:</strong> *"Jean quản lý được từng đồng tiền thừa, phân quyền nhân viên bán hàng chỉ được thu tiền, chống thất thoát hộc tủ!"*
+                                </p>
+                            </div>
+                            <span class="text-xs font-bold text-[#0084FF]">Mục tiêu chốt sales: Chống thất thoát</span>
+                        </div>
+
+                        <div class="card-custom highlight-green flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-white font-bold text-base mb-2">3. Demo cho chuỗi của Pierre</h4>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    - <strong>Cách demo:</strong> Trình bày trên Portal quản trị Web và slide API tích hợp.
+                                    <br>- <strong>Thao tác:</strong> Bấm xem doanh số chi nhánh Delmas và Pétion-Ville trên màn hình quản lý. Thao tác cấu hình Loyalty Point và tự động đồng bộ hóa đơn qua API.
+                                    <br>- <strong>Thông điệp nhấn mạnh:</strong> *"Pierre chỉ cần ngồi văn phòng Delmas cũng kiểm soát được dòng tiền ví tổng của 10 siêu thị thành viên!"*
+                                </p>
+                            </div>
+                            <span class="text-xs font-bold text-[#10B981]">Mục tiêu chốt sales: Vận hành tự động</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: LỘ TRÌNH 3 GIAI ĐOẠN PILOT & LAUNCH -->
+            <section class="slide" id="slide-8">
+                <div class="slide-header">
+                    <h2>Lộ trình Triển khai Quick Sale tại Haiti</h2>
+                    <div class="slide-subtitle">Kế hoạch hành động chi tiết năm 2026</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-3col gap-4">
+                        <!-- Giai đoạn 1 -->
+                        <div class="card-custom">
+                            <div class="text-xs text-[#FF6B00] font-bold uppercase tracking-wider mb-2">Giai đoạn 1: Pilot</div>
+                            <h4 class="text-white font-bold text-base mb-2">Thử nghiệm Chợ Trọng điểm</h4>
+                            <p class="text-xs text-gray-400 mb-3">Thời gian: Tháng 1</p>
+                            <div class="space-y-1.5 text-xs text-gray-300 leading-relaxed">
+                                <div>• Thử nghiệm 100 Merchant tại các vùng an toàn (Chợ Cap-Haïtien & Pétion-Ville).</div>
+                                <div>• Tập trung cài đặt loa Soundbox cho nhóm tiểu thương cố định và SME tạp hóa.</div>
+                                <div>• Kiểm thử độ trễ loa 4G Natcom.</div>
+                            </div>
+                        </div>
+
+                        <!-- Giai đoạn 2 -->
+                        <div class="card-custom highlight">
+                            <div class="text-xs text-[#0084FF] font-bold uppercase tracking-wider mb-2">Giai đoạn 2: Launch</div>
+                            <h4 class="text-white font-bold text-base mb-2">Ra mắt Toàn quốc & Marketing</h4>
+                            <p class="text-xs text-gray-400 mb-3">Thời gian: Tháng 2</p>
+                            <div class="space-y-1.5 text-xs text-gray-300 leading-relaxed">
+                                <div>• Phân phối diện rộng loa Soundbox + gói cước data 4G viễn thông miễn phí.</div>
+                                <div>• Kích hoạt chiến dịch radio FM tiếng Creole tại chợ và D2D sales qua 3,000+ Agent.</div>
+                                <div>• Chạy chương trình hoàn tiền (Cashback) 1%-2% kích cầu người mua.</div>
+                            </div>
+                        </div>
+
+                        <!-- Giai đoạn 3 -->
+                        <div class="card-custom highlight-green">
+                            <div class="text-xs text-[#10B981] font-bold uppercase tracking-wider mb-2">Giai đoạn 3: Scale</div>
+                            <h4 class="text-white font-bold text-base mb-2">Mở rộng & Tín dụng Vi mô</h4>
+                            <p class="text-xs text-gray-400 mb-3">Thời gian: Dài hạn</p>
+                            <div class="space-y-1.5 text-xs text-gray-300 leading-relaxed">
+                                <div>• Tích hợp chấm điểm tín dụng AI dựa trên lịch sử Sổ quỹ Quick Sale.</div>
+                                <div>• Cho vay vốn kinh doanh vi mô trực tiếp trên app với phí referral 1% cho ví Natcash.</div>
+                                <div>• Khóa Merchant trung thành tuyệt đối với hệ sinh thái.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: KẾT LUẬN & ĐỀ XUẤT HÀNH ĐỘNG -->
+            <section class="slide" id="slide-9">
+                <div class="slide-header">
+                    <h2>Đề xuất Phê duyệt & go-live</h2>
+                    <div class="slide-subtitle">Sẵn sàng chiếm lĩnh thị trường thanh toán Merchant</div>
+                </div>
+                <div class="slide-body">
+                    <div class="grid-2col gap-8 items-center">
+                        <div class="space-y-3">
+                            <div class="feat-row green-border" style="padding: 12px 16px;">
+                                <span class="feat-text">
+                                    <strong>🚀 Ưu tiên tối giản hóa:</strong> Giai đoạn đầu, tập trung hoàn thiện module Loa thông báo (Creole) và Sổ quỹ Lite để giải quyết nỗi sợ an ninh & thất thoát của Merchant tại chợ.
+                                </span>
+                            </div>
+                            <div class="feat-row green-border" style="padding: 12px 16px;">
+                                <span class="feat-text">
+                                    <strong>🤝 Cộng hưởng Viễn thông - Fintech:</strong> Natcom hỗ trợ hạ tầng 4G và data miễn phí cho loa, Natcash hỗ trợ eKYC và luồng tiền, tạo nên thế độc tôn so với MonCash (Digicel).
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-custom highlight-orange p-6 text-center">
+                            <h4 class="text-white text-lg font-bold mb-3">Quyết định go-live Giai đoạn 1</h4>
+                            <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+                                Kính đề xuất Ban Giám đốc thông qua Bản đồ tính năng Quick Sale theo phân tầng Persona và cho phép triển khai chạy Pilot cho <strong>100 điểm bán đầu tiên</strong> tại Port-au-Prince.
+                            </p>
+                            <button class="px-6 py-2.5 bg-[#FF6B00] text-white text-xs font-bold rounded-lg hover:bg-[#FFA057] transition cursor-pointer" onclick="alert('Đã gửi đề xuất duyệt lên BGĐ Natcash Natcom!')">
+                                🚀 GỬI DUYỆT ĐỀ XUẤT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Navigation Footer Bar -->
+    <footer class="footer-bar">
+        <div class="slide-dots" id="slideDots"></div>
+        <div class="controls">
+            <span class="slide-counter" id="slideCounter">SLIDE 1 / 9</span>
+            <button class="btn-nav" id="btnPrev" title="Slide trước (←)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button class="btn-nav" id="btnNext" title="Slide sau (→ / Space / Enter)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <span class="text-xs text-gray-600 ml-2">Dùng <span class="kbd-hint">←</span> <span class="kbd-hint">→</span> để di chuyển</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('slidesContainer');
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const dotsContainer = document.getElementById('slideDots');
+            const counter = document.getElementById('slideCounter');
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const btnFullscreen = document.getElementById('btnFullscreen');
+            
+            let currentSlideIndex = 0;
+            const totalSlides = slides.length;
+
+            // Generate Navigation Dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
+
+            function updateControls() {
+                // Update Slide visibility and state classes
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'prev', 'next');
+                    if (index === currentSlideIndex) {
+                        slide.classList.add('active');
+                    } else if (index < currentSlideIndex) {
+                        slide.classList.add('prev');
+                    } else {
+                        slide.classList.add('next');
+                    }
+                });
+
+                // Update Dots
+                dots.forEach((dot, index) => {
+                    if (index === currentSlideIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+
+                // Update Counter
+                counter.textContent = `SLIDE ${currentSlideIndex + 1} / ${totalSlides}`;
+                
+                // Update Progress Bar
+                const progressPercent = ((currentSlideIndex + 1) / totalSlides) * 100;
+                document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+                // Enable/Disable buttons
+                btnPrev.disabled = currentSlideIndex === 0;
+                btnNext.disabled = currentSlideIndex === totalSlides - 1;
+            }
+
+            function goToSlide(index) {
+                if (index >= 0 && index < totalSlides) {
+                    currentSlideIndex = index;
+                    updateControls();
+                }
+            }
+
+            function nextSlide() {
+                if (currentSlideIndex < totalSlides - 1) {
+                    goToSlide(currentSlideIndex + 1);
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlideIndex > 0) {
+                    goToSlide(currentSlideIndex - 1);
+                }
+            }
+
+            // Button Event Listeners
+            btnPrev.addEventListener('click', prevSlide);
+            btnNext.addEventListener('click', nextSlide);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                    nextSlide();
+                    if (e.key === ' ') e.preventDefault(); // Prevent page scroll
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+
+            // Fullscreen management
+            btnFullscreen.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Update icon on fullscreen change
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    btnFullscreen.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    `;
+                } else {
+                    btnFullscreen.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                        </svg>
+                    `;
+                }
+            });
+
+            // Initialize controls
+            updateControls();
+        });
+    </script>
+</body>
+</html>

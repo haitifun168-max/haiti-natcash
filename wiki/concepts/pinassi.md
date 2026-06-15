@@ -64,6 +64,7 @@ Tận dụng công nghệ so khớp sinh trắc học và nhận diện ký tự
 - [[concepts/spih]]
 - [[concepts/pronap]]
 - [[synthesis/haiti-digital-payment-strategy]]
+- [[synthesis/proposal-cashless-pilot-markets]]
 
 ---
 

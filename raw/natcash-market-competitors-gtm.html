@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Natcash Merchant — Market, Competitors & GTM Strategy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: #0b0f1a; margin: 0; }
+        body { font-family: 'DM Sans', sans-serif; color: #f0f4ff; overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0b0f1a; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.65s ease, transform 0.65s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1150px; padding: clamp(1rem, 2.5vw, 2.5rem); }
+        .nav-controls { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); padding: 8px 20px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.09); }
+        .nav-btn { width: 36px; height: 36px; border: none; background: rgba(238,0,51,0.15); color: #EE0033; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: rgba(238,0,51,0.3); }
+        .slide-dots { display: flex; gap: 5px; flex-wrap: wrap; max-width: 280px; justify-content: center; }
+        .slide-dots .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); cursor: pointer; transition: all 0.3s; }
+        .slide-dots .dot.active { background: #EE0033; transform: scale(1.3); }
+        .slide-counter { font-size: 0.75rem; color: #6b7a99; min-width: 44px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(18px); }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(75px); animation: float-slow 11s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 15s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 19s ease-in-out infinite reverse; }
+        @keyframes float-slow { 0% { transform: translate(0,0) scale(1); } 25% { transform: translate(40px,-35px) scale(1.08); } 50% { transform: translate(-25px,30px) scale(0.94); } 75% { transform: translate(35px,15px) scale(1.05); } 100% { transform: translate(0,0) scale(1); } }
+        @keyframes float-drift { 0% { transform: translate(0,0) scale(1); } 33% { transform: translate(-35px,-45px) scale(1.1); } 66% { transform: translate(28px,22px) scale(0.92); } 100% { transform: translate(0,0) scale(1); } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes bar-in { from { width: 0 !important; } }
+        .slide::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%); }
+        /* noise */
+        .noise { position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px; }
+
+        .feat-row { display:flex;align-items:flex-start;gap:8px;padding:6px 10px;border-radius:7px;background:rgba(255,255,255,0.03);border-left:3px solid;margin-bottom:5px; }
+        .feat-icon { font-size:1rem;flex-shrink:0;margin-top:1px; }
+        .feat-text { font-size:0.76rem;line-height:1.42;color:#b8c4e0; }
+        .feat-text strong { color:#f0f4ff;font-weight:600; }
+        .section-pill { padding:4px 12px;border-radius:99px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;display:inline-block; }
+
+        .tag-red { background:rgba(238,0,51,0.15);border:1px solid rgba(238,0,51,0.3);color:#ff6688; }
+        .tag-gold { background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.25);color:#fde68a; }
+        .tag-green { background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:#4ade80; }
+        .tag-blue { background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#60a5fa; }
+        .tag-orange { background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);color:#fb923c; }
+        .tag-gray { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9ca3af; }
+
+        /* stat card */
+        .stat-card { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;text-align:center;position:relative;overflow:hidden; }
+        .stat-card .accent-stripe { position:absolute;top:0;left:0;right:0;height:3px; }
+        .stat-num { font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;line-height:1.1;margin-bottom:3px; }
+        .stat-label { font-size:0.65rem;color:#6b7a99;line-height:1.4; }
+        .stat-sub { font-size:0.6rem;color:#4b5563;margin-top:2px; }
+
+        /* competitor card */
+        .comp-card { border-radius:12px;padding:14px;border:1px solid; }
+
+        /* bar chart */
+        .bar-wrap { margin:5px 0; }
+        .bar-label { font-size:0.68rem;color:#b8c4e0;margin-bottom:3px;display:flex;justify-content:space-between; }
+        .bar-track { height:10px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden; }
+        .bar-fill { height:100%;border-radius:5px;transition:width 1.2s ease; }
+
+        /* gtm wave */
+        .phase-card { border-radius:12px;padding:14px;border:1px solid; }
+        .phase-num { font-family:'Archivo Black',sans-serif;font-size:1.6rem;font-weight:900;line-height:1;margin-bottom:4px; }
+
+        /* table */
+        table { width:100%;border-collapse:collapse;font-size:0.72rem; }
+        th, td { padding:6px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05); }
+        th { color:#6b7a99;font-weight:600;background:rgba(255,255,255,0.04); }
+        tr:hover td { background:rgba(255,255,255,0.02); }
+    </style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══ SLIDE 1: COVER ═══ -->
+<div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-110px;right:-90px;background:#EE0033;opacity:0.13;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#1a2d50;opacity:0.6;"></div>
+        <div class="blob" style="width:220px;height:220px;top:40%;left:14%;background:#FFD700;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content" style="text-align:center;">
+        <div style="font-size:3.8rem;animation:float 3s ease-in-out infinite;margin-bottom:1rem;" class="reveal">📊</div>
+        <h1 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:900;background:linear-gradient(135deg,#EE0033,#ff6688,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;letter-spacing:-0.02em;">
+            THỊ TRƯỜNG · ĐỐI THỦ · GTM
+        </h1>
+        <p class="reveal" style="font-size:clamp(0.82rem,1.5vw,1rem);color:#6b7a99;letter-spacing:4px;text-transform:uppercase;margin-bottom:1.5rem;">Natcash Merchant · Haiti Market Intelligence · 2026</p>
+        <div class="reveal" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <span class="section-pill tag-gold">1 — Quy mô thị trường</span>
+            <span class="section-pill tag-red">2 — Phân tích đối thủ</span>
+            <span class="section-pill tag-green">3 — Chiến lược Go-to-Market</span>
+        </div>
+        <p class="reveal" style="margin-top:1.4rem;font-size:0.72rem;color:#4b5563;">Nguồn: BRH · World Bank · FinScope MSME Haiti · Statista · IFC · GSMA · Evidencity</p>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 2: QUY MÔ THỊ TRƯỜNG — TỔNG QUAN ═══ -->
+<div class="slide" data-slide="2">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:420px;height:420px;top:-80px;right:-70px;background:#FFD700;opacity:0.07;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;left:-45px;background:#3b82f6;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#FFD700,#fde68a);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#fde68a;margin:0;">📊 QUY MÔ THỊ TRƯỜNG HAITI</h2>
+            <span class="section-pill tag-gold" style="font-size:0.6rem;">📘 Benchmark</span>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">
+            <div class="stat-card">
+                <div class="accent-stripe" style="background:linear-gradient(to right,#FFD700,#fde68a);"></div>
+                <div class="stat-num" style="color:#fde68a;">~11M</div>
+                <div class="stat-label">Dân số Haiti</div>
+                <div class="stat-sub">📘 World Bank 2024</div>
+            </div>
+            <div class="stat-card">
+                <div class="accent-stripe" style="background:linear-gradient(to right,#EE0033,#ff6688);"></div>
+                <div class="stat-num" style="color:#ff6688;">89%</div>
+                <div class="stat-label">Dân số không có tài khoản ngân hàng (unbanked)</div>
+                <div class="stat-sub">📘 BRH 2024</div>
+            </div>
+            <div class="stat-card">
+                <div class="accent-stripe" style="background:linear-gradient(to right,#3b82f6,#60a5fa);"></div>
+                <div class="stat-num" style="color:#60a5fa;">$1.88B</div>
+                <div class="stat-label">Tổng giao dịch Digital Payments (2025F)</div>
+                <div class="stat-sub">📘 Statista 2024</div>
+            </div>
+            <div class="stat-card">
+                <div class="accent-stripe" style="background:linear-gradient(to right,#22c55e,#4ade80);"></div>
+                <div class="stat-num" style="color:#4ade80;">~$3B</div>
+                <div class="stat-label">Kiều hối từ diaspora Mỹ (1/3 GDP Haiti)</div>
+                <div class="stat-sub">📘 Evidencity 2023</div>
+            </div>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#fde68a;margin-bottom:8px;">🏪 Phân khúc Merchant — Mục tiêu VDS</div>
+                <div class="bar-wrap">
+                    <div class="bar-label"><span>MSME chính thức + phi chính thức</span><span style="color:#fde68a;font-weight:700;">~660K</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:88%;background:linear-gradient(to right,#FFD700,#fde68a);" data-width="88"></div></div>
+                    <div class="stat-sub" style="margin-top:2px;">📘 FinScope MSME Haiti 2023 — 10% dân số trưởng thành</div>
+                </div>
+                <div class="bar-wrap" style="margin-top:8px;">
+                    <div class="bar-label"><span>SME có doanh thu ổn định (cửa hàng)</span><span style="color:#60a5fa;font-weight:700;">~180K</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:55%;background:linear-gradient(to right,#3b82f6,#60a5fa);" data-width="55"></div></div>
+                </div>
+                <div class="bar-wrap" style="margin-top:8px;">
+                    <div class="bar-label"><span>Chuỗi bán lẻ / Siêu thị</span><span style="color:#ff6688;font-weight:700;">~2,500</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:12%;background:linear-gradient(to right,#EE0033,#ff6688);" data-width="12"></div></div>
+                </div>
+                <div class="bar-wrap" style="margin-top:8px;">
+                    <div class="bar-label"><span>Người dùng Natcash hiện tại</span><span style="color:#22c55e;font-weight:700;">~3,000 agents</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:30%;background:linear-gradient(to right,#22c55e,#4ade80);" data-width="30"></div></div>
+                    <div class="stat-sub" style="margin-top:2px;">📘 Natcash official 2025 — cần bổ sung mạng lưới Merchant</div>
+                </div>
+            </div>
+            <div style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#60a5fa;margin-bottom:8px;">📱 Hạ tầng kỹ thuật số sẵn có</div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">📶</span><span class="feat-text"><strong>41.4%</strong> người dùng Internet (2022) · đang tăng mạnh sau 4G</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">📱</span><span class="feat-text"><strong>86%</strong> doanh nghiệp dùng điện thoại trong kinh doanh (IFC)</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">💳</span><span class="feat-text">Chỉ <strong>21%</strong> doanh nghiệp dùng mobile payment — cơ hội lớn</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">🌐</span><span class="feat-text">Natcom: mạng 4G phủ 80%+ Port-au-Prince — nền tảng cho Soundbox</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">🏦</span><span class="feat-text">SME chiếm <strong>80% lao động Haiti</strong> nhưng 67% không tiếp cận tài chính</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 3: CƠ HỘI DOANH THU ═══ -->
+<div class="slide" data-slide="3">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;left:-60px;background:#22c55e;opacity:0.07;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;right:-45px;background:#FFD700;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#22c55e,#4ade80);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#4ade80;margin:0;">💰 CƠ HỘI DOANH THU — THỊ PHẦN MERCHANT NATCASH</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
+            <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.18);border-radius:12px;padding:16px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#4ade80;margin-bottom:10px;">📈 Kịch bản Pilot — 1,000 Soundbox đầu tiên (Năm 1)</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;">
+                        <div style="font-size:1.2rem;font-weight:900;color:#4ade80;font-family:'Archivo Black',sans-serif;">~$4.6K</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">MDR 1% × 460 HTG avg tx × 30/ngày × 1000 merchants</div>
+                        <div style="font-size:0.6rem;color:#4b5563;margin-top:2px;">📙 Assumption</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;">
+                        <div style="font-size:1.2rem;font-weight:900;color:#60a5fa;font-family:'Archivo Black',sans-serif;">~$15/mo</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Phí thuê Soundbox / thiết bị × 1,000 devices</div>
+                        <div style="font-size:0.6rem;color:#4b5563;margin-top:2px;">📙 Assumption</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:10px;text-align:center;grid-column:1/-1;">
+                        <div style="font-size:1.3rem;font-weight:900;color:#fde68a;font-family:'Archivo Black',sans-serif;">~$19.6K–46K/tháng</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Tổng doanh thu MDR + thiết bị · chưa tính CASA + tín dụng</div>
+                    </div>
+                </div>
+            </div>
+            <div style="background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:12px;padding:16px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#fde68a;margin-bottom:10px;">🏆 Kịch bản Scale-up — 50,000 Merchant (Năm 3)</div>
+                <div class="feat-row" style="border-color:#FFD700;"><span class="feat-icon">💳</span><span class="feat-text"><strong>MDR doanh thu:</strong> ~$230K–500K/tháng (1% GMV)</span></div>
+                <div class="feat-row" style="border-color:#fde68a;"><span class="feat-icon">🔊</span><span class="feat-text"><strong>Phí thuê Soundbox:</strong> ~$750K/tháng (50K × $15)</span></div>
+                <div class="feat-row" style="border-color:#FFD700;"><span class="feat-icon">🏦</span><span class="feat-text"><strong>CASA float income:</strong> ~$60K/tháng (số dư avg $50/merchant)</span></div>
+                <div class="feat-row" style="border-color:#fde68a;"><span class="feat-icon">💡</span><span class="feat-text"><strong>Data cho vay vi mô:</strong> referral 1–2% on loan value</span></div>
+                <div style="margin-top:8px;padding:8px;background:rgba(255,215,0,0.08);border-radius:8px;font-size:0.7rem;color:#fde68a;text-align:center;">
+                    📙 Tổng cộng: <strong>>$1M/tháng</strong> tiềm năng chia sẻ VDS–Natcom · Năm 3
+                </div>
+            </div>
+        </div>
+        <div class="reveal" style="padding:10px 14px;background:rgba(238,0,51,0.06);border:1px solid rgba(238,0,51,0.15);border-radius:10px;font-size:0.72rem;color:#ff6688;">
+            ⚡ <strong>So what?</strong> Thị trường Haiti có 660K+ MSME nhưng chỉ 21% dùng mobile payment → <strong>tỷ lệ thâm nhập thấp = Blue Ocean</strong>. Đây là window of opportunity trước khi MonCash hoặc tân binh triển khai giải pháp Merchant đầy đủ tương đương.
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 4: PHÂN TÍCH ĐỐI THỦ ═══ -->
+<div class="slide" data-slide="4">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#EE0033;opacity:0.08;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;left:-45px;background:#3b82f6;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#EE0033,#ff6688);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#ff6688;margin:0;">⚔️ BẢN ĐỒ CẠNH TRANH — THỊ TRƯỜNG MERCHANT HAITI</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+            <!-- MonCash -->
+            <div class="comp-card" style="background:rgba(249,115,22,0.06);border-color:rgba(249,115,22,0.25);">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.4rem;">🟠</span>
+                    <div>
+                        <div style="font-size:0.82rem;font-weight:700;color:#fb923c;">MONCASH</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Digicel + Scotiabank · Since 2010</div>
+                    </div>
+                </div>
+                <div class="feat-row" style="border-color:#f97316;"><span class="feat-icon">👥</span><span class="feat-text"><strong>~2M users</strong> · ~795K active 90-day (GSMA)</span></div>
+                <div class="feat-row" style="border-color:#fb923c;"><span class="feat-icon">🏪</span><span class="feat-text"><strong>Merchant acceptance:</strong> Formal businesses QR + USSD</span></div>
+                <div class="feat-row" style="border-color:#f97316;"><span class="feat-icon">⚠️</span><span class="feat-text"><strong>Không có:</strong> App quản lý Merchant riêng, Soundbox, quản lý NV, sổ thu chi</span></div>
+                <div class="feat-row" style="border-color:#fb923c;"><span class="feat-icon">💰</span><span class="feat-text">$400M/năm GMV (2017) — đang tăng</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(249,115,22,0.1);border-radius:6px;font-size:0.65rem;color:#fb923c;">⚡ Đối thủ lớn nhất nhưng <strong>chưa có Merchant App chuyên biệt</strong></div>
+            </div>
+            <!-- Lajan Cash + HaitiPay -->
+            <div class="comp-card" style="background:rgba(168,85,247,0.06);border-color:rgba(168,85,247,0.25);">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.4rem;">🟣</span>
+                    <div>
+                        <div style="font-size:0.82rem;font-weight:700;color:#c084fc;">LAJAN CASH / HAITIPAY</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">BNC/độc lập · USSD-first · Diaspora</div>
+                    </div>
+                </div>
+                <div class="feat-row" style="border-color:#a855f7;"><span class="feat-icon">📱</span><span class="feat-text"><strong>Lajan Cash:</strong> USSD-based, không cần internet · nhắm nông thôn</span></div>
+                <div class="feat-row" style="border-color:#c084fc;"><span class="feat-icon">🌍</span><span class="feat-text"><strong>HaitiPay:</strong> Khai thác kiều hối $3B Haitians ở Florida/New York</span></div>
+                <div class="feat-row" style="border-color:#a855f7;"><span class="feat-icon">⚠️</span><span class="feat-text"><strong>Không có:</strong> Merchant management, Soundbox, quản lý chuỗi</span></div>
+                <div class="feat-row" style="border-color:#c084fc;"><span class="feat-icon">🎯</span><span class="feat-text">Tập trung C2C, không B2B Merchant</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(168,85,247,0.1);border-radius:6px;font-size:0.65rem;color:#c084fc;">✅ Không phải đối thủ trực tiếp trong phân khúc Merchant</div>
+            </div>
+            <!-- Seza Pay + mới nổi -->
+            <div class="comp-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.25);">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.4rem;">🔵</span>
+                    <div>
+                        <div style="font-size:0.82rem;font-weight:700;color:#60a5fa;">SEZA PAY + TÂN BINH</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Digital-native · 2024–2026</div>
+                    </div>
+                </div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">🚀</span><span class="feat-text"><strong>Seza Pay (2024):</strong> App hiện đại C2C, UX tốt · đang mở rộng</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">💡</span><span class="feat-text"><strong>Mannitoks:</strong> Ví điện tử nội địa nhỏ · chưa có giải pháp Merchant</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">⚠️</span><span class="feat-text"><strong>Không ai</strong> trong nhóm này có Soundbox hardware hoặc quản lý chuỗi</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">📈</span><span class="feat-text">Là mối nguy tiềm tàng nếu đối tác với nhà cung cấp hardware nước ngoài</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(59,130,246,0.1);border-radius:6px;font-size:0.65rem;color:#60a5fa;">⏰ Cửa sổ cơ hội còn mở 12–18 tháng</div>
+            </div>
+        </div>
+        <div class="reveal" style="overflow:hidden;border-radius:10px;border:1px solid rgba(255,255,255,0.07);">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tính năng</th>
+                        <th style="color:#fb923c;">MonCash</th>
+                        <th style="color:#c084fc;">Lajan/HaitiPay</th>
+                        <th style="color:#60a5fa;">Seza Pay</th>
+                        <th style="color:#4ade80;background:rgba(34,197,94,0.08);">✅ Natcash Merchant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>App quản lý bán hàng Merchant</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#4ade80;font-weight:700;">✅ Đầy đủ 3 gói</td></tr>
+                    <tr><td>Loa Soundbox (không cần điện thoại)</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#4ade80;font-weight:700;">✅ Thiết bị riêng</td></tr>
+                    <tr><td>Quản lý nhân viên + phân ca</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#4ade80;font-weight:700;">✅ Gói SME+</td></tr>
+                    <tr><td>Quản lý đa chi nhánh</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#4ade80;font-weight:700;">✅ Gói Chuỗi</td></tr>
+                    <tr><td>Credit scoring / Tín dụng vi mô</td><td style="color:#fb923c;">Giới hạn</td><td style="color:#6b7a99;">—</td><td style="color:#6b7a99;">—</td><td style="color:#4ade80;font-weight:700;">✅ Analytics AI</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 5: CẠNH TRANH QUỐC TẾ — AI CÓ SOUNDBOX CHƯA? ═══ -->
+<div class="slide" data-slide="5">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;left:-60px;background:#EE0033;opacity:0.07;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;right:-45px;background:#FFD700;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:0.9rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#EE0033,#ff6688);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.65rem);font-weight:900;color:#ff6688;margin:0;">🌏 AI ĐÃ TRIỂN KHAI SOUNDBOX MERCHANT TẠI CARIBBEAN/AFRICA?</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px;">
+            <div style="background:rgba(238,0,51,0.05);border:1px solid rgba(238,0,51,0.15);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#ff6688;margin-bottom:8px;">🔍 Kết quả khảo sát thị trường</div>
+                <div class="feat-row" style="border-color:#EE0033;"><span class="feat-icon">🇮🇳</span><span class="feat-text"><strong>Ấn Độ (PhonePe/Paytm Soundbox):</strong> Tiên phong toàn cầu, 5M+ thiết bị · nhưng không có ở Caribbean</span></div>
+                <div class="feat-row" style="border-color:#ff6688;"><span class="feat-icon">🌍</span><span class="feat-text"><strong>Africa (EazyPay Soundbox):</strong> M-Pesa, SnapScan đang thí điểm · chưa triển khai tại Haiti</span></div>
+                <div class="feat-row" style="border-color:#EE0033;"><span class="feat-icon">🇸🇬</span><span class="feat-text"><strong>Singapore (Qashier, FOMO AI Soundbox 2026):</strong> Thị trường phát triển · không áp dụng cho Haiti</span></div>
+                <div class="feat-row" style="border-color:#ff6688;"><span class="feat-icon">🇻🇳</span><span class="feat-text"><strong>Việt Nam (VNPAY/Sacombank Soundbox):</strong> 400K+ merchants · VDS đang xuất khẩu model này</span></div>
+                <div style="margin-top:10px;padding:8px;background:rgba(238,0,51,0.1);border-radius:8px;">
+                    <div style="font-size:0.72rem;color:#ff6688;font-weight:700;">🎯 KẾT LUẬN: TẠI HAITI — CHƯA AI TRIỂN KHAI SOUNDBOX</div>
+                    <div style="font-size:0.67rem;color:#b8c4e0;margin-top:4px;">Natcash Merchant + Soundbox sẽ là <strong>người đi đầu (First Mover)</strong> tại Caribbean với giải pháp tích hợp đầy đủ</div>
+                </div>
+            </div>
+            <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#4ade80;margin-bottom:8px;">✅ LỢI THẾ FIRST MOVER của VDS/Natcash</div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🏆</span><span class="feat-text"><strong>Không có đối thủ nào</strong> tại Haiti tích hợp: App Merchant + Soundbox + Quản lý chuỗi cùng lúc</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">⚡</span><span class="feat-text"><strong>Quik Sale đã battle-tested</strong> tại VN — rút ngắn time-to-market từ 18 tháng → 4–6 tuần</span></div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🔊</span><span class="feat-text"><strong>Soundbox giải quyết pain point đặc thù Haiti</strong> · không cộng thêm rủi ro an ninh khi nhìn điện thoại</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">📊</span><span class="feat-text"><strong>Data network effect:</strong> Merchant data → credit scoring → cho vay → ARPU tăng lên theo thời gian</span></div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🛡️</span><span class="feat-text"><strong>Rào cản cao cho đối thủ:</strong> Khi Natcash chiếm merchant loyalty, chi phí chuyển đổi cao</span></div>
+            </div>
+        </div>
+        <div class="reveal" style="padding:10px 14px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;font-size:0.72rem;color:#fde68a;">
+            💡 <strong>Tham chiếu thành công:</strong> VNPAY triển khai 400,000+ Soundbox tại VN trong 2 năm (2021–2023). Sacombank Soundbox cho phép liên kết nhiều thiết bị vào 1 tài khoản. Mô hình đã được chứng minh — VDS đang nhân rộng sang Haiti.
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 6: SECTION — GTM STRATEGY ═══ -->
+<div class="slide" data-slide="6">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-110px;right:-90px;background:#22c55e;opacity:0.1;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#0a1628;opacity:0.6;"></div>
+        <div class="blob" style="width:200px;height:200px;top:42%;left:12%;background:#EE0033;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content" style="text-align:center;">
+        <div style="font-size:3.5rem;animation:float 3s ease-in-out infinite;margin-bottom:0.9rem;" class="reveal">🚀</div>
+        <h1 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,4.5vw,3.3rem);font-weight:900;background:linear-gradient(135deg,#22c55e,#4ade80,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;">
+            CHIẾN LƯỢC GO-TO-MARKET
+        </h1>
+        <p class="reveal" style="font-size:clamp(0.8rem,1.4vw,0.95rem);color:#6b7a99;letter-spacing:4px;text-transform:uppercase;margin-bottom:1.3rem;">Tiếp cận khách hàng · Kênh phân phối · Mở rộng quy mô</p>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
+            <div style="padding:12px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:10px;">
+                <div style="font-size:1.4rem;margin-bottom:4px;">🎯</div>
+                <div style="font-size:0.75rem;font-weight:700;color:#4ade80;">Seed</div>
+                <div style="font-size:0.65rem;color:#6b7a99;">1,000 Soundbox<br>trợ giá Pilot</div>
+            </div>
+            <div style="padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;">
+                <div style="font-size:1.4rem;margin-bottom:4px;">📣</div>
+                <div style="font-size:0.75rem;font-weight:700;color:#60a5fa;">Viral</div>
+                <div style="font-size:0.65rem;color:#6b7a99;">Word-of-mouth<br>Chợ Marché de Fer</div>
+            </div>
+            <div style="padding:12px;background:rgba(238,0,51,0.08);border:1px solid rgba(238,0,51,0.2);border-radius:10px;">
+                <div style="font-size:1.4rem;margin-bottom:4px;">🏢</div>
+                <div style="font-size:0.75rem;font-weight:700;color:#ff6688;">Scale</div>
+                <div style="font-size:0.65rem;color:#6b7a99;">SME + Chuỗi<br>toàn quốc</div>
+            </div>
+            <div style="padding:12px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;">
+                <div style="font-size:1.4rem;margin-bottom:4px;">💰</div>
+                <div style="font-size:0.75rem;font-weight:700;color:#fde68a;">Monetize</div>
+                <div style="font-size:0.65rem;color:#6b7a99;">Tín dụng vi mô<br>+ Data services</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 7: GTM — PHÂN TẦNG KHÁCH HÀNG & KÊNH TIẾP CẬN ═══ -->
+<div class="slide" data-slide="7">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#22c55e;opacity:0.07;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;left:-45px;background:#3b82f6;opacity:0.05;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:0.9rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#22c55e,#4ade80);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#4ade80;margin:0;">🎯 PHÂN TẦNG KHÁCH HÀNG & KÊNH TIẾP CẬN</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <!-- Tầng 1 -->
+            <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:14px;border-top:3px solid #22c55e;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.3rem;">🛵</span>
+                    <div>
+                        <div style="font-size:0.78rem;font-weight:700;color:#4ade80;">TẦNG 1 — CÁ NHÂN</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Bán hàng rong · Tiểu thương chợ</div>
+                    </div>
+                </div>
+                <div style="font-size:0.7rem;color:#6b7a99;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px;">KÊNH TIẾP CẬN</div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">📱</span><span class="feat-text"><strong>Natcash Agent Network</strong><br>3,000+ agents đang có → thêm nhiệm vụ onboard Merchant</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">🗣️</span><span class="feat-text"><strong>Word-of-Mouth tại chợ</strong><br>Soundbox phát tiếng TO → khách bên cạnh tò mò, hỏi mua</span></div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🎁</span><span class="feat-text"><strong>Trợ giá thiết bị tháng 1</strong><br>$0 tháng đầu dùng thử → giảm rào cản đăng ký</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">📻</span><span class="feat-text"><strong>Radio + community FM</strong><br>Quảng bá qua kênh truyền thông địa phương Creole</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(34,197,94,0.08);border-radius:6px;font-size:0.65rem;color:#4ade80;">
+                    🎯 Mục tiêu: 20,000 merchants trong 6 tháng đầu
+                </div>
+            </div>
+            <!-- Tầng 2 -->
+            <div style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:14px;border-top:3px solid #3b82f6;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.3rem;">🏪</span>
+                    <div>
+                        <div style="font-size:0.78rem;font-weight:700;color:#60a5fa;">TẦNG 2 — SME / HKD</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Cửa hàng có nhân viên · Pharma · F&B</div>
+                    </div>
+                </div>
+                <div style="font-size:0.7rem;color:#6b7a99;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px;">KÊNH TIẾP CẬN</div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">🤝</span><span class="feat-text"><strong>Đội sales B2B trực tiếp</strong><br>Natcom sales force gọi điện + thăm trực tiếp</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">🏦</span><span class="feat-text"><strong>Kết hợp ngân hàng BNC/UNIBANK</strong><br>Giới thiệu qua kênh SME banking partner</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">📺</span><span class="feat-text"><strong>Quảng cáo TV + Facebook</strong><br>Demo video Soundbox — viral trên mạng Haiti</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">🎓</span><span class="feat-text"><strong>Workshop / Demo tại quận</strong><br>Natcom mở buổi demo 1-1 cho chủ cửa hàng</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(59,130,246,0.08);border-radius:6px;font-size:0.65rem;color:#60a5fa;">
+                    🎯 Mục tiêu: 10,000 SME merchants — năm đầu
+                </div>
+            </div>
+            <!-- Tầng 3 -->
+            <div style="background:rgba(238,0,51,0.05);border:1px solid rgba(238,0,51,0.2);border-radius:12px;padding:14px;border-top:3px solid #EE0033;">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                    <span style="font-size:1.3rem;">🏬</span>
+                    <div>
+                        <div style="font-size:0.78rem;font-weight:700;color:#ff6688;">TẦNG 3 — CHUỖI/ENTERPRISE</div>
+                        <div style="font-size:0.62rem;color:#6b7a99;">Supermarket · Gas station · Pharmacy chain</div>
+                    </div>
+                </div>
+                <div style="font-size:0.7rem;color:#6b7a99;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px;">KÊNH TIẾP CẬN</div>
+                <div class="feat-row" style="border-color:#EE0033;"><span class="feat-icon">👔</span><span class="feat-text"><strong>Account Manager VDS/Natcom</strong><br>Đội chuyên biệt cho Enterprise — custom demo</span></div>
+                <div class="feat-row" style="border-color:#ff6688;"><span class="feat-icon">🏛️</span><span class="feat-text"><strong>Hiệp hội Thương mại Haiti</strong><br>CCIH (Chambre de Commerce) là kênh lobby</span></div>
+                <div class="feat-row" style="border-color:#EE0033;"><span class="feat-icon">📊</span><span class="feat-text"><strong>ROI Presentation + PoC</strong><br>Chạy thử 1 chi nhánh miễn phí 30 ngày</span></div>
+                <div class="feat-row" style="border-color:#ff6688;"><span class="feat-icon">🔗</span><span class="feat-text"><strong>Tích hợp API với ERP</strong><br>VDS hỗ trợ kỹ thuật đầu nối hệ thống cũ</span></div>
+                <div style="margin-top:8px;padding:6px;background:rgba(238,0,51,0.08);border-radius:6px;font-size:0.65rem;color:#ff6688;">
+                    🎯 Mục tiêu: 200 chuỗi/siêu thị — Năm 1
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 8: GTM — LỘ TRÌNH TRIỂN KHAI CHI TIẾT ═══ -->
+<div class="slide" data-slide="8">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#22c55e;opacity:0.06;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;left:-45px;background:#FFD700;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:0.9rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#FFD700,#fde68a);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#fde68a;margin:0;">📅 LỘ TRÌNH GTM — 4 GIAI ĐOẠN</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+            <!-- Phase 0 -->
+            <div class="phase-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2);">
+                <div class="phase-num" style="color:#60a5fa;">P0</div>
+                <div style="font-size:0.73rem;font-weight:700;color:#93c5fd;margin-bottom:6px;">SETUP<br><span style="font-size:0.62rem;color:#6b7a99;">Tuần 1–4</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🌍</span><span class="feat-text" style="font-size:0.67rem;"><strong>Localize app</strong> · Creole/Français/English</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🏦</span><span class="feat-text" style="font-size:0.67rem;"><strong>Tích hợp BRH</strong> · chuẩn ngân hàng Haiti</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🔊</span><span class="feat-text" style="font-size:0.67rem;"><strong>Import 1,000 Soundbox</strong> · test QA toàn bộ</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">👩‍🏫</span><span class="feat-text" style="font-size:0.67rem;"><strong>Train Natcom sales</strong> · 50 agent đầu tiên</span></div>
+            </div>
+            <!-- Phase 1 -->
+            <div class="phase-card" style="background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.2);">
+                <div class="phase-num" style="color:#4ade80;">P1</div>
+                <div style="font-size:0.73rem;font-weight:700;color:#86efac;margin-bottom:6px;">PILOT VIRAL<br><span style="font-size:0.62rem;color:#6b7a99;">Tháng 2–3</span></div>
+                <div class="feat-row" style="border-color:#22c55e;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">📍</span><span class="feat-text" style="font-size:0.67rem;"><strong>1,000 Soundbox trợ giá</strong> · Marché de Fer, Port-au-Prince</span></div>
+                <div class="feat-row" style="border-color:#4ade80;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">📺</span><span class="feat-text" style="font-size:0.67rem;"><strong>Viral video Soundbox</strong> · "Nghe tiếng loa là an toàn"</span></div>
+                <div class="feat-row" style="border-color:#22c55e;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">📊</span><span class="feat-text" style="font-size:0.67rem;"><strong>Thu thập feedback</strong> · cải thiện UX tuần 1</span></div>
+                <div class="feat-row" style="border-color:#4ade80;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🎯</span><span class="feat-text" style="font-size:0.67rem;"><strong>KPI:</strong> 80% active rate sau 30 ngày</span></div>
+            </div>
+            <!-- Phase 2 -->
+            <div class="phase-card" style="background:rgba(255,215,0,0.05);border-color:rgba(255,215,0,0.2);">
+                <div class="phase-num" style="color:#fde68a;">P2</div>
+                <div style="font-size:0.73rem;font-weight:700;color:#fde068;margin-bottom:6px;">SCALE SME<br><span style="font-size:0.62rem;color:#6b7a99;">Tháng 4–9</span></div>
+                <div class="feat-row" style="border-color:#FFD700;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">📈</span><span class="feat-text" style="font-size:0.67rem;"><strong>10,000 merchants</strong> · trọng tâm SME Gói Cửa Hàng</span></div>
+                <div class="feat-row" style="border-color:#fde68a;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🤝</span><span class="feat-text" style="font-size:0.67rem;"><strong>Hợp tác CCIH</strong> · Chambre de Commerce</span></div>
+                <div class="feat-row" style="border-color:#FFD700;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🏦</span><span class="feat-text" style="font-size:0.67rem;"><strong>Ra mắt Credit micro</strong> · UNIBANK/BNC partnership</span></div>
+                <div class="feat-row" style="border-color:#fde68a;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🎯</span><span class="feat-text" style="font-size:0.67rem;"><strong>KPI:</strong> MDR $50K/tháng · NPS >60</span></div>
+            </div>
+            <!-- Phase 3 -->
+            <div class="phase-card" style="background:rgba(238,0,51,0.05);border-color:rgba(238,0,51,0.2);">
+                <div class="phase-num" style="color:#ff6688;">P3</div>
+                <div style="font-size:0.73rem;font-weight:700;color:#fca5a5;margin-bottom:6px;">ENTERPRISE<br><span style="font-size:0.62rem;color:#6b7a99;">Tháng 10–24</span></div>
+                <div class="feat-row" style="border-color:#EE0033;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🏬</span><span class="feat-text" style="font-size:0.67rem;"><strong>200+ chuỗi siêu thị</strong> · Gói Enterprise full</span></div>
+                <div class="feat-row" style="border-color:#ff6688;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🌍</span><span class="feat-text" style="font-size:0.67rem;"><strong>Mở rộng tỉnh thành</strong> · Cap-Haïtien, Gonaïves</span></div>
+                <div class="feat-row" style="border-color:#EE0033;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">📊</span><span class="feat-text" style="font-size:0.67rem;"><strong>Analytics Platform</strong> · bán data insights cho bên thứ 3</span></div>
+                <div class="feat-row" style="border-color:#ff6688;padding:4px 8px;"><span class="feat-icon" style="font-size:0.85rem;">🎯</span><span class="feat-text" style="font-size:0.67rem;"><strong>KPI:</strong> 50K merchants · $1M+ doanh thu/tháng</span></div>
+            </div>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+            <div style="padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center;font-size:0.68rem;">
+                <span style="color:#60a5fa;font-weight:700;">Tháng 1–3</span><br><span style="color:#6b7a99;">~1,000 merchants<br>$19K+ doanh thu</span>
+            </div>
+            <div style="padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center;font-size:0.68rem;">
+                <span style="color:#4ade80;font-weight:700;">Tháng 4–9</span><br><span style="color:#6b7a99;">~10,000 merchants<br>$150K+ doanh thu</span>
+            </div>
+            <div style="padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center;font-size:0.68rem;">
+                <span style="color:#fde68a;font-weight:700;">Tháng 10–18</span><br><span style="color:#6b7a99;">~25,000 merchants<br>$450K+ doanh thu</span>
+            </div>
+            <div style="padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center;font-size:0.68rem;">
+                <span style="color:#ff6688;font-weight:700;">Tháng 19–24</span><br><span style="color:#6b7a99;">~50,000 merchants<br>$1M+ doanh thu</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 9: GTM — CHIẾN THUẬT VIRAL & RETENTION ═══ -->
+<div class="slide" data-slide="9">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;left:-60px;background:#22c55e;opacity:0.06;"></div>
+        <div class="blob" style="width:280px;height:280px;bottom:-55px;right:-45px;background:#EE0033;opacity:0.05;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:0.9rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#22c55e,#4ade80);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#4ade80;margin:0;">🎯 CHIẾN THUẬT VIRAL ACQUISITION & RETENTION</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
+            <!-- Acquisition -->
+            <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.18);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#4ade80;margin-bottom:10px;">🚀 ACQUISITION — Kéo người dùng đầu tiên</div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🎁</span><span class="feat-text"><strong>Soundbox miễn phí tháng 1:</strong> 1,000 thiết bị đầu trợ giá → "0 đồng thử nghiệm" tạo FOMO trong chợ</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">🏅</span><span class="feat-text"><strong>Refer-a-merchant:</strong> Merchant giới thiệu 1 người = nhận $5 credit + 3 tháng miễn phí MDR</span></div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🤝</span><span class="feat-text"><strong>Agent Commission tăng:</strong> Agent onboard Merchant nhận hoa hồng $3–5/merchant · cộng vào lương</span></div>
+                <div class="feat-row" style="border-color:#4ade80;"><span class="feat-icon">📣</span><span class="feat-text"><strong>"Nghe tiếng loa là an toàn" campaign:</strong> Video viral merchant dùng Soundbox giữa chợ tấp nập · không lo cướp</span></div>
+                <div class="feat-row" style="border-color:#22c55e;"><span class="feat-icon">🏛️</span><span class="feat-text"><strong>Hợp tác tổ chức hiệp hội:</strong> CCIH, Fédération des Marchands Haiti · onboard bulk</span></div>
+            </div>
+            <!-- Retention -->
+            <div style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:14px;">
+                <div style="font-size:0.75rem;font-weight:700;color:#60a5fa;margin-bottom:10px;">🔒 RETENTION — Giữ merchant không churn</div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">📊</span><span class="feat-text"><strong>Weekly business report:</strong> SMS/Push mỗi thứ 2 "Tuần này bạn thu được X HTG — tăng Y% vs tuần trước"</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">🎯</span><span class="feat-text"><strong>Loyalty tier cho Merchant:</strong> Bronze/Silver/Gold theo GMV → phí MDR giảm dần khi lên hạng</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">💰</span><span class="feat-text"><strong>Micro-credit linkage:</strong> Sau 3 tháng dùng → pre-approved limit vay vốn theo doanh thu thực</span></div>
+                <div class="feat-row" style="border-color:#60a5fa;"><span class="feat-icon">🆘</span><span class="feat-text"><strong>Support Creole 24/7:</strong> Hotline tiếng Creole + in-app chat · giải quyết trong 2 giờ</span></div>
+                <div class="feat-row" style="border-color:#3b82f6;"><span class="feat-icon">🔧</span><span class="feat-text"><strong>Bảo hành Soundbox 48h:</strong> Hỏng hóc → đổi thiết bị trong 48h · không gián đoạn kinh doanh</span></div>
+            </div>
+        </div>
+        <div class="reveal" style="padding:10px 14px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+            <div style="text-align:center;font-size:0.7rem;"><span style="color:#fde68a;font-weight:700;display:block;font-size:1.1rem;">80%</span><span style="color:#6b7a99;">Target active rate<br>sau tháng đầu</span></div>
+            <div style="text-align:center;font-size:0.7rem;"><span style="color:#4ade80;font-weight:700;display:block;font-size:1.1rem;">&lt;15%</span><span style="color:#6b7a99;">Target churn rate<br>năm 1</span></div>
+            <div style="text-align:center;font-size:0.7rem;"><span style="color:#60a5fa;font-weight:700;display:block;font-size:1.1rem;">NPS &gt;60</span><span style="color:#6b7a99;">Net Promoter Score<br>benchmarked M-Pesa</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ SLIDE 10: KPI DASHBOARD & CLOSING ═══ -->
+<div class="slide" data-slide="10">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-110px;right:-90px;background:#EE0033;opacity:0.12;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#0a1628;opacity:0.65;"></div>
+        <div class="blob" style="width:220px;height:220px;top:42%;left:12%;background:#22c55e;opacity:0.06;"></div>
+    </div>
+    <div class="noise"></div>
+    <div class="content">
+        <div class="reveal" style="display:flex;align-items:center;gap:10px;margin-bottom:0.9rem;">
+            <div style="width:4px;height:30px;background:linear-gradient(to bottom,#EE0033,#ff6688);border-radius:2px;"></div>
+            <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:900;color:#ff6688;margin:0;">📊 KPI DASHBOARD — NATCASH MERCHANT GTM</h2>
+        </div>
+        <div class="reveal" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">
+            <div class="stat-card"><div class="accent-stripe" style="background:linear-gradient(to right,#22c55e,#4ade80);"></div><div class="stat-num" style="color:#4ade80;">1,000</div><div class="stat-label">Soundbox Pilot<br>Tháng 1–3</div></div>
+            <div class="stat-card"><div class="accent-stripe" style="background:linear-gradient(to right,#3b82f6,#60a5fa);"></div><div class="stat-num" style="color:#60a5fa;">50K</div><div class="stat-label">Merchant target<br>Cuối năm 2</div></div>
+            <div class="stat-card"><div class="accent-stripe" style="background:linear-gradient(to right,#FFD700,#fde68a);"></div><div class="stat-num" style="color:#fde68a;">$1M+</div><div class="stat-label">Doanh thu/tháng<br>Mục tiêu năm 3</div></div>
+            <div class="stat-card"><div class="accent-stripe" style="background:linear-gradient(to right,#EE0033,#ff6688);"></div><div class="stat-num" style="color:#ff6688;">&lt;15%</div><div class="stat-label">Merchant churn<br>Target năm 1</div></div>
+        </div>
+        <div class="reveal" style="overflow:hidden;border-radius:10px;border:1px solid rgba(255,255,255,0.07);margin-bottom:10px;">
+            <table>
+                <thead>
+                    <tr><th>KPI Nhóm</th><th>Chỉ số đo lường</th><th style="color:#60a5fa;">P1 (T3)</th><th style="color:#fde68a;">P2 (T9)</th><th style="color:#ff6688;">P3 (T24)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td style="color:#4ade80;font-weight:600;">Acquisition</td><td>Active Merchants</td><td style="color:#60a5fa;">1,000</td><td style="color:#fde68a;">10,000</td><td style="color:#ff6688;">50,000</td></tr>
+                    <tr><td style="color:#4ade80;font-weight:600;">Device</td><td>Soundbox active rate</td><td style="color:#60a5fa;">≥80%</td><td style="color:#fde68a;">≥85%</td><td style="color:#ff6688;">≥90%</td></tr>
+                    <tr><td style="color:#4ade80;font-weight:600;">Revenue</td><td>MDR + Device fee/tháng</td><td style="color:#60a5fa;">$19K–46K</td><td style="color:#fde68a;">$150K+</td><td style="color:#ff6688;">$1M+</td></tr>
+                    <tr><td style="color:#4ade80;font-weight:600;">Retention</td><td>Merchant churn rate</td><td style="color:#60a5fa;">&lt;20%</td><td style="color:#fde68a;">&lt;15%</td><td style="color:#ff6688;">&lt;10%</td></tr>
+                    <tr><td style="color:#4ade80;font-weight:600;">Satisfaction</td><td>NPS score</td><td style="color:#60a5fa;">&gt;50</td><td style="color:#fde68a;">&gt;60</td><td style="color:#ff6688;">&gt;70</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="reveal" style="padding:10px 16px;background:rgba(238,0,51,0.07);border:1px solid rgba(238,0,51,0.18);border-radius:10px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.5rem;">🚀</span>
+            <div style="font-size:0.75rem;color:#ff6688;"><strong>Bước tiếp theo với BTGĐ Natcom:</strong> Phê duyệt ngân sách Pilot 1,000 thiết bị Soundbox → VDS bắt đầu localize trong 2 tuần → <strong>Go-live trong 4–6 tuần kể từ ngày ký Hợp đồng</strong></div>
+        </div>
+    </div>
+</div>
+
+</div><!-- end deck -->
+
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 10</span>
+</div>
+
+<script>
+let current = 1;
+const total = document.querySelectorAll('.slide').length;
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+for(let i=1;i<=total;i++){const d=document.createElement('div');d.className='dot'+(i===1?' active':'');d.onclick=()=>goToSlide(i);dotsEl.appendChild(d);}
+function goToSlide(n){
+    document.querySelector('.slide.active')?.classList.remove('active');
+    const next=document.querySelector(`.slide[data-slide="${n}"]`);
+    if(next){next.classList.add('active');animateSlide(next);}
+    current=n;updateNav();
+}
+function changeSlide(d){let n=current+d;if(n<1)n=total;if(n>total)n=1;goToSlide(n);}
+function updateNav(){
+    document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current));
+    counterEl.textContent=current+' / '+total;
+}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1);}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1);}});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{const diff=tx-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1);});
+function animateSlide(slide){
+    slide.querySelectorAll('.reveal').forEach((el,i)=>{
+        el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(18px)';el.offsetHeight;
+        const delay=i*0.07;
+        el.style.transition=`opacity 0.32s ease ${delay}s,transform 0.32s ease ${delay}s`;
+        el.style.opacity='1';el.style.transform='translateY(0)';
+    });
+    slide.querySelectorAll('.bar-fill').forEach((bar,i)=>{
+        const w=bar.dataset.width||bar.style.width.replace('%','');
+        bar.style.width='0%';bar.style.transition='none';bar.offsetHeight;
+        bar.style.transition=`width 1s ease ${i*0.15+0.3}s`;
+        bar.style.width=w+'%';
+    });
+}
+document.addEventListener('mousemove',e=>{
+    const sp=document.querySelector('.mouse-spotlight');
+    if(sp)sp.style.background=`radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px,rgba(238,0,51,0.04),transparent 40%)`;
+});
+try{animateSlide(document.querySelector('.slide.active'));}catch(e){}
+</script>
+</body>
+</html>

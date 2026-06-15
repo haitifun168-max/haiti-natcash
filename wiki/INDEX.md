@@ -1,13 +1,13 @@
 ---
 title: "INDEX — MyBrain Wiki"
 type: index
-updated: 2026-06-14
+updated: 2026-06-15
 ---
 
 # 🧠 INDEX — MyBrain Wiki
 
-> **Cập nhật lần cuối:** `2026-06-14 23:25`
-> **Tổng số trang:** `17`
+> **Cập nhật lần cuối:** `2026-06-15 16:15`
+> **Tổng số trang:** `25`
 > **Agent:** Antigravity 2.0 | Skill: llm-wiki v1.0
 
 ---
@@ -28,12 +28,15 @@ Wiki hiện tại chứa thông tin về hai chủ đề lớn:
 |---|---|---|
 | [[concepts/llm-wiki]] | Kiến trúc quản lý tri thức sử dụng LLM để xây dựng và duy trì wiki | stable |
 | [[concepts/natcash-merchant]] | Hệ sinh thái ứng dụng quản lý bán hàng 3 cấp độ cho tiểu thương Haiti | stable |
-| [[concepts/soundbox]] | Loa thông báo giao dịch bằng giọng nói tức thì cho quầy thanh toán | stable |
+| [[concepts/soundbox]] | Loa thông báo giao dịch bằng giọng nói tức thời cho quầy thanh toán | stable |
 | [[concepts/pafi]] | Khung 7 nguyên tắc của World Bank & BIS về tài chính toàn diện | stable |
 | [[concepts/dpi]] | Hạ tầng công cộng số dùng chung (lớp định danh, thanh toán, dữ liệu) | stable |
 | [[concepts/pinassi]] | Nền tảng Trung gian Thanh toán không tiền mặt bảo trợ bởi BRH | stable |
 | [[concepts/spih]] | Hệ thống chuyển mạch liên ngân hàng thời gian thực của Haiti | stable |
 | [[concepts/pronap]] | Bộ xử lý thanh toán thẻ nội địa liên ngân hàng của Haiti | stable |
+| [[concepts/quick-sale]] | Lõi nền tảng quản lý bán hàng (POS di động, sổ quỹ, CRM) | stable |
+| [[concepts/rag]] | Phương pháp truy xuất thông tin từ bên ngoài cho mô hình ngôn ngữ lớn | stable |
+| [[concepts/madan-sara]] | Nhóm nữ tiểu thương bán lẻ phi chính thức đóng vai trò huyết mạch kinh tế Haiti | stable |
 
 ---
 
@@ -47,6 +50,7 @@ Wiki hiện tại chứa thông tin về hai chủ đề lớn:
 | [[entities/natcash]] | Ví điện tử của nhà mạng Natcom tại Haiti | stable |
 | [[entities/brh]] | Ngân hàng Trung ương Haiti, sở hữu 40% cổ phần liên doanh Natcom | stable |
 | [[entities/aci-worldwide]] | Tập đoàn công nghệ phần mềm thanh toán thời gian thực của Mỹ | stable |
+| [[entities/moncash]] | Ví điện tử lớn nhất tại Haiti thuộc nhà mạng Digicel & Scotiabank | stable |
 
 ---
 
@@ -60,6 +64,10 @@ Wiki hiện tại chứa thông tin về hai chủ đề lớn:
 | [[synthesis/natcash-merchant-ecosystem]] | Hệ sinh thái ứng dụng quản lý bán hàng và loa báo Soundbox cho tiểu thương | stable |
 | [[synthesis/proposal-cashless-pilot-markets]] | Đề xuất giải pháp thử nghiệm thanh toán phi tiền mặt tại một số chợ đầu mối | stable |
 | [[synthesis/natcash-merchant-ui-design]] | Đặc tả thiết kế chi tiết toàn bộ các màn hình tính năng cho 3 gói dịch vụ Natcash Merchant | stable |
+| [[synthesis/quick-sale-demo-script]] | Kịch bản 10 slides và thao tác demo thực chiến nền tảng Quick Sale | stable |
+| [[synthesis/haiti-mobile-money-competitors]] | Phân tích bối cảnh cạnh tranh mobile money và so sánh tính năng Merchant | stable |
+| [[synthesis/natcash-merchant-gtm-strategy]] | Chiến lược tiếp cận thị trường và mở rộng quy mô hệ sinh thái điểm bán | stable |
+| [[synthesis/natcash-merchant-pilot-personas]] | Bản tổng hợp 4 chân dung khách hàng và 10 gap tính năng giai đoạn Pilot | stable |
 
 ---
 
@@ -83,7 +91,7 @@ Wiki hiện tại chứa thông tin về hai chủ đề lớn:
 
 > Các khái niệm được đề cập nhưng chưa có trang riêng — ưu tiên bổ sung
 
-- [[concepts/rag]] — Khái niệm RAG (Retrieval-Augmented Generation) được dùng để đối chiếu với LLM Wiki nhưng chưa có trang định nghĩa chi tiết.
+*Không có khoảng trống kiến thức nào được ghi nhận tại phiên này.*
 
 ---
 

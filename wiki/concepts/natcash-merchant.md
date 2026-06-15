@@ -71,6 +71,7 @@ Giải pháp phân chia ứng dụng thành 3 cấp độ phù hợp với quy m
 - [[entities/natcash]]
 - [[concepts/soundbox]]
 - [[synthesis/haiti-digital-payment-strategy]]
+- [[synthesis/natcash-merchant-ui-design]]
 
 ---
 

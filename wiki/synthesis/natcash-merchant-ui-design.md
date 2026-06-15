@@ -14,7 +14,7 @@ source: "[[raw/2026-06-14-VDS Quik Sale-BẢN ĐỀ XUẤT GIẢI PHÁP KINH DOA
 
 > [!TIP]
 > **Bản Mockup Tương Tác & Figma Specs:**
-> Bạn có thể mở trực tiếp bản nguyên mẫu tương tác và thông số thiết kế Figma-ready chi tiết cho toàn bộ các màn hình tại: [natcash_merchant_mockups.html](file:///c:/0.CuongPH/datastore/llm-wiki-vault/llm-wiki-vault/output/natcash_merchant_mockups.html) (Nhấp đúp hoặc mở bằng trình duyệt Chrome/Edge/Firefox để trải nghiệm tương tác đổi màn hình và lấy mã màu HEX, kiểu chữ typography, bố cục layout grid).
+> Bạn có thể mở trực tiếp bản nguyên mẫu tương tác và thông số thiết kế Figma-ready chi tiết cho toàn bộ các màn hình tại: [natcash_merchant_mockups.html](file:///c:/CuongPH/data-store/natcash-merchant/output/natcash_merchant_mockups.html) (Nhấp đúp hoặc mở bằng trình duyệt Chrome/Edge/Firefox để trải nghiệm tương tác đổi màn hình và lấy mã màu HEX, kiểu chữ typography, bố cục layout grid).
 
 ---
 

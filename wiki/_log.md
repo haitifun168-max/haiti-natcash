@@ -34,6 +34,15 @@ type: system
 - 2026-06-14 22:25 | UPDATE | Đã cập nhật quy trình Onboarding & eKYC của trang đề xuất synthesis/proposal-cashless-pilot-markets
 - 2026-06-14 23:26 | CREATE | Đã tạo trang thiết kế giao diện synthesis/natcash-merchant-ui-design và cập nhật INDEX.md
 - 2026-06-14 23:33 | CREATE | Đã tạo bản nguyên mẫu tương tác và thông số Figma-ready tại output/natcash_merchant_mockups.html và cập nhật trang thiết kế
+- 2026-06-15 08:23 | LINT | Thực hiện rà soát sức khỏe wiki, sửa liên kết hỏng, kết nối trang mồ côi và chỉnh lại các đường dẫn tuyệt đối bị sai
+- 2026-06-15 09:55 | INGEST | Đã xử lý các file mới trong raw/, tạo các trang concepts/quick-sale, concepts/rag và synthesis/quick-sale-demo-script, đồng thời cập nhật INDEX.md
+- 2026-06-15 15:45 | INGEST | Đã xử lý file mới raw/natcash-market-competitors-gtm.html, tạo thực thể entities/moncash và các trang synthesis/haiti-mobile-money-competitors, synthesis/natcash-merchant-gtm-strategy, đồng thời cập nhật INDEX.md
+- 2026-06-15 16:15 | INGEST | Đã xử lý file mới raw/Persona_Natcash_Merchant_Haiti_Pilot.md, tạo concepts/madan-sara và synthesis/natcash-merchant-pilot-personas, đồng thời cập nhật INDEX.md
+- 2026-06-15 16:22 | CREATE | Đã tạo slide bản đồ tính năng theo Persona tại output/bao_cao_persona_natcash_merchant_slide.html
+
+
+
+
 
 
 
